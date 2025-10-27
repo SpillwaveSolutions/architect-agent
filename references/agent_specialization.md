@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Learned from PEAK-121 Phase 8:** Improper agent usage led to incomplete work and grade deductions.
+**Learned from TKT-121 Phase 8:** Improper agent usage led to incomplete work and grade deductions.
 
 ### Core Principle: Right Agent for the Job
 
@@ -74,7 +74,7 @@ Use qa-enforcer to:
 
 **Example use case:**
 ```markdown
-After creating PEAK-121-MIGRATION-COMPLETE.md:
+After creating TKT-121-MIGRATION-COMPLETE.md:
 1. ✅ Create the document manually
 2. ✅ Use change-explainer to analyze all changes in the document
 3. ✅ Use change-explainer output to improve the document
@@ -400,7 +400,7 @@ When creating success criteria for phases, include agent usage:
 | Making mandatory agents "optional" | -2 points |
 | Not using qa-enforcer before completion | -5 points |
 
-## Reference Case Study: PEAK-121 Phase 8
+## Reference Case Study: TKT-121 Phase 8
 
 ### What Happened
 

@@ -298,7 +298,7 @@ grades/grade-YYYY_MM_DD-HH_MM-<description>.md
 ```
 
 The description MUST match the instruction file's description:
-- Instruction: `instruct-2025_10_26-22_00-peak123_phase6_cicd_integration.md`
-- Grade: `grade-2025_10_27-02_00-peak123_phase6_cicd_integration.md`
+- Instruction: `instruct-2025_10_26-22_00-tkt123_phase6_cicd_integration.md`
+- Grade: `grade-2025_10_27-02_00-tkt123_phase6_cicd_integration.md`
 
 Timestamps will differ (instruction created before work, grade after), but description must be identical.

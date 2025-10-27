@@ -332,7 +332,7 @@ Pattern: `<type>-<date>-<time>-<ticket_id>_<phase>_<description>.md`
 - **Type**: instruct, grade, analysis, human
 - **Date**: YYYY_MM_DD
 - **Time**: HH_MM
-- **Ticket ID**: e.g., peak121, proj456
+- **Ticket ID**: e.g., tkt121, proj456
 - **Phase**: phase5, phase5b, step3 (if multi-phase)
 - **Description**: brief_words_separated_by_underscores
 

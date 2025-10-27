@@ -11,7 +11,7 @@
 - **Type**: `instruct`, `grade`, `analysis`, or `human`
 - **Date**: `YYYY_MM_DD` (underscores)
 - **Time**: `HH_MM` (24-hour format)
-- **Ticket ID**: Jira/Atlassian ticket ID (e.g., `peak121`, `proj456`)
+- **Ticket ID**: Jira/Atlassian ticket ID (e.g., `tkt121`, `proj456`)
 - **Phase**: Phase or step identifier if part of multi-phase work (e.g., `phase5`, `phase5b`, `step3`)
 - **Description**: Brief descriptive words separated by underscores
 
@@ -26,13 +26,13 @@
 
 ### Multi-phase ticket work:
 ```
-instructions/instruct-2025_10_20-22_35-peak121_phase5_infrastructure_deployment.md
-human/human-2025_10_20-22_35-peak121_phase5_infrastructure_deployment.md
-grades/grade-2025_10_20-23_00-peak121_phase5_infrastructure_deployment.md
+instructions/instruct-2025_10_20-22_35-tkt121_phase5_infrastructure_deployment.md
+human/human-2025_10_20-22_35-tkt121_phase5_infrastructure_deployment.md
+grades/grade-2025_10_20-23_00-tkt121_phase5_infrastructure_deployment.md
 
-instructions/instruct-2025_10_21-22_56-peak121_phase5c_fix_scheduler_https.md
-human/human-2025_10_21-22_56-peak121_phase5c_fix_scheduler_https.md
-grades/grade-2025_10_21-23_43-peak121_phase5c_fix_scheduler_https.md
+instructions/instruct-2025_10_21-22_56-tkt121_phase5c_fix_scheduler_https.md
+human/human-2025_10_21-22_56-tkt121_phase5c_fix_scheduler_https.md
+grades/grade-2025_10_21-23_43-tkt121_phase5c_fix_scheduler_https.md
 ```
 
 ### Single-phase ticket work:

@@ -372,8 +372,8 @@ If tests fail:
 This protocol MUST be documented in:
 - ✅ Architect's architect-agent skill (references/testing_protocol.md)
 - ✅ Architect's CLAUDE.md (reference to skill)
-- ✅ Code agent's `.claude/CLAUDE.md` (in peak6-contactmanager-2)
-- ✅ Code agent's `AGENTS.md` (in peak6-contactmanager-2)
+- ✅ Code agent's `.claude/CLAUDE.md` (in acme-sales_leads_gen-2)
+- ✅ Code agent's `AGENTS.md` (in acme-sales_leads_gen-2)
 - ✅ Every instruction file sent to code agent
 
 ## Key Reminders

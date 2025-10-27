@@ -37,14 +37,14 @@ echo "✅ Log file created: $LOG_FILE"
 ```
 
 **The description MUST match the instruction filename:**
-- Instruction: `instruct-2025_10_26-22_00-peak123_phase6_cicd_integration.md`
-- Log: `log-2025_10_26-22_00-peak123_phase6_cicd_integration.md`
+- Instruction: `instruct-2025_10_26-22_00-tkt123_phase6_cicd_integration.md`
+- Log: `log-2025_10_26-22_00-tkt123_phase6_cicd_integration.md`
 
 ### Step 2: Set Log Variable
 
 ```bash
 # Set for entire session
-export LOG_FILE="debugging/logs/log-2025_10_26-22_00-peak123_phase6_cicd_integration.md"
+export LOG_FILE="debugging/logs/log-2025_10_26-22_00-tkt123_phase6_cicd_integration.md"
 ```
 
 ## Real-Time Logging with `tee`
@@ -119,14 +119,14 @@ echo "" | tee -a "$LOG_FILE"
 
 # Log action
 echo "[$(date +%H:%M:%S)] Deploying backend-api via Pulumi" | tee -a "$LOG_FILE"
-echo "**Command:** \`pulumi up --yes --stack peak6-contactmanager-qa\`" | tee -a "$LOG_FILE"
+echo "**Command:** \`pulumi up --yes --stack acme-sales_leads_gen-qa\`" | tee -a "$LOG_FILE"
 echo "**Purpose:** Deploy backend API to Cloud Run" | tee -a "$LOG_FILE"
 echo "**Output:**" | tee -a "$LOG_FILE"
 echo '```' | tee -a "$LOG_FILE"
 
 # Execute with tee
 cd infrastructure
-pulumi up --yes --stack peak6-contactmanager-qa 2>&1 | tee -a "../$LOG_FILE"
+pulumi up --yes --stack acme-sales_leads_gen-qa 2>&1 | tee -a "../$LOG_FILE"
 DEPLOY_RESULT=${PIPESTATUS[0]}
 cd ..
 
@@ -167,8 +167,8 @@ echo "" | tee -a "$LOG_FILE"
 echo "[$(date +%H:%M:%S)] Applying fix: Add IAM role" | tee -a "$LOG_FILE"
 echo "**Command:** \`gcloud projects add-iam-policy-binding...\`" | tee -a "$LOG_FILE"
 echo '```' | tee -a "$LOG_FILE"
-gcloud projects add-iam-policy-binding peak6labs-contactmanager \
-    --member="serviceAccount:peak6-ingestion-qa@peak6labs-contactmanager.iam.gserviceaccount.com" \
+gcloud projects add-iam-policy-binding acme-labs-sales_leads_gen \
+    --member="serviceAccount:acme-ingestion-qa@acme-labs-sales_leads_gen.iam.gserviceaccount.com" \
     --role="roles/artifactregistry.writer" 2>&1 | tee -a "$LOG_FILE"
 echo '```' | tee -a "$LOG_FILE"
 echo "**Result:** ✅ Permission granted" | tee -a "$LOG_FILE"

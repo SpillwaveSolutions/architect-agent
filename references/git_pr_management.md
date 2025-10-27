@@ -25,7 +25,7 @@ git commit -m "implement contact api, add validation, update tests"
 # PR Title: [Ticket-ID]: Summary of changes
 
 ## Ticket
-- PEAK-123: Description
+- TKT-123: Description
 - Status: Complete / In Progress
 
 ## Changes Made
@@ -57,17 +57,17 @@ git commit -m "implement contact api, add validation, update tests"
 2. **Instruct code agent to:**
    ```bash
    # Create branch if needed
-   git checkout -b feat/PEAK-123
+   git checkout -b feat/TKT-123
 
    # Stage and commit changes
    git add -A
    git commit -m "descriptive message"
 
    # Push to remote
-   git push origin feat/PEAK-123
+   git push origin feat/TKT-123
 
    # Create PR via CLI
-   gh pr create --title "[PEAK-123]: Description" --body-file pr-message.md
+   gh pr create --title "[TKT-123]: Description" --body-file pr-message.md
    ```
 
 3. **Document PR in ticket:**
@@ -86,10 +86,10 @@ git commit -m "fix zsh compatibility, update aws scripts, implement security"
 
 # 2. Or detailed PR
 gh pr create \
-  --title "[PEAK-123]: Fix authentication scripts and implement security" \
+  --title "[TKT-123]: Fix authentication scripts and implement security" \
   --body-file pr-message.md \
   --base main \
-  --head feat/PEAK-123
+  --head feat/TKT-123
 ```
 
 ## Instruct Code Agent Template
