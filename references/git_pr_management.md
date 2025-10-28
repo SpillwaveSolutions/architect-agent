@@ -1,5 +1,22 @@
 # Git Commit and PR Management
 
+## ⚠️ CRITICAL: No AI Attribution
+
+**NEVER include AI attribution in commits, PRs, tickets, or comments.**
+
+**FORBIDDEN:**
+- ❌ AI, AI agent, Claude, Claude Code, Anthropic
+- ❌ "Generated with", "Assisted by"
+- ❌ 🤖 emoji or AI-related emojis
+- ❌ `Co-Authored-By: Claude <noreply@anthropic.com>`
+- ❌ Any mention of automation tools
+
+**WHY:** Professional client requirements - they use AI but don't want it publicly visible to stakeholders.
+
+**GRADING:** Including AI attribution = -2 points (professionalism violation)
+
+---
+
 ## Commit Messages
 
 ### Format

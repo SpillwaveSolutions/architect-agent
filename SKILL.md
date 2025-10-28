@@ -365,6 +365,65 @@ git commit -m "implement api, add tests, update docs"
 
 **See `references/git_pr_management.md` for PR templates.**
 
+## CRITICAL: No AI Attribution Protocol
+
+**NEVER include AI attribution in any deliverables.**
+
+### Absolute Prohibitions
+
+When creating instructions for commits, PRs, tickets, or comments:
+
+**FORBIDDEN TERMS:**
+- ❌ AI, AI agent, Claude, Claude Code, Anthropic
+- ❌ "Generated with", "Assisted by"
+- ❌ 🤖 (robot emoji or any AI-related emoji)
+
+**FORBIDDEN PATTERNS:**
+- ❌ `Co-Authored-By: Claude <noreply@anthropic.com>`
+- ❌ `🤖 Generated with [Claude Code](...)`
+- ❌ Any mention of automation tools
+- ❌ Any indication AI was involved
+
+### Why This Matters
+
+**Professional client requirements:**
+- Clients may use AI tools but don't want it publicly visible
+- Version control should reflect human decision-making
+- Stakeholders may be skeptical of AI involvement
+- Maintains professional appearance
+
+### Examples
+
+**❌ INCORRECT:**
+```bash
+git commit -m "fix: issue resolved
+
+🤖 Generated with Claude Code
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+**✅ CORRECT:**
+```bash
+git commit -m "fix: issue resolved
+
+Part of TICKET-123 implementation."
+```
+
+### Application Scope
+
+Applies to ALL:
+- Git commits, PR titles/descriptions
+- GitHub/Jira issues and comments
+- Code review comments
+- Documentation commits
+
+### Grading Impact
+
+**Protocol violation: -2 points**
+- Unprofessional appearance
+- Violates client requirements
+- Exposes automation to stakeholders
+
 ## Reference Documents
 
 All detailed protocols available in `references/`:
@@ -376,27 +435,139 @@ All detailed protocols available in `references/`:
 5. **`resilience_protocol.md`** - Error recovery, verification, deviation protocol
 6. **`file_naming.md`** - Naming patterns, matching rules, examples
 7. **`git_pr_management.md`** - Commit format, PR creation, documentation
+8. **`instruction_structure.md`** - **NEW:** Complete instruction template with all sections
+9. **`ticket_tracking_pr_management.md`** - **NEW:** Ticket tracking, PR descriptions from tickets
+
+## project-memory Skill Integration
+
+### Purpose
+Use the `project-memory` skill to maintain code agent's `docs/project_notes/` with institutional knowledge discovered during ticket work.
+
+### When to Use project-memory
+
+**At Ticket Start:**
+- Read code agent's `docs/project_notes/` for context
+- Check key_facts.md, bugs.md, decisions.md, issues.md
+
+**During Work:**
+- Note new facts for later documentation
+- Document workarounds and solutions
+- Track architectural decisions made
+
+**At Ticket Completion:**
+- Invoke project-memory skill
+- Update docs/project_notes/ with ticket outcomes
+
+### What to Document
+
+**In key_facts.md:**
+- New infrastructure details (IPs, URLs, ports)
+- Credential locations (Secret Manager paths)
+- Configuration values discovered
+- Tool versions and dependencies
+
+**In bugs.md:**
+- Bugs fixed with solutions
+- Prevention measures
+- Related issues
+- Verification commands
+
+**In decisions.md:**
+- Architectural decisions made
+- Alternatives considered
+- Trade-offs and rationale
+- Implementation notes
+
+**In issues.md:**
+- Ticket completion status
+- Work completed
+- Grade achieved
+- Related tickets
+
+### Example Integration
+
+```markdown
+## After PEAK-169 Completion
+
+**Invoke project-memory skill:**
+Target: /path/to/code-agent/workspace/docs/project_notes
+
+**Updates to make:**
+
+### key_facts.md
+- GitHub Actions: WIF secret names (WIF_PROVIDER, WIF_SERVICE_ACCOUNT)
+- Workflows: infrastructure.yml (correct), deploy-gcp.yml (was wrong, now fixed)
+
+### bugs.md
+BUG-031: GitHub Actions Auth Failure
+- Root Cause: Inconsistent secret naming across workflows
+- Solution: Use WIF_* naming consistently
+- Prevention: Workflow template with shared auth action
+- Verification: `gh secret list`, workflow runs succeed
+
+### decisions.md
+ADR-008: GitHub Actions Authentication Secret Naming
+- Decision: Standardize on WIF_PROVIDER and WIF_SERVICE_ACCOUNT
+- Rationale: Clarity, consistency with WIF terminology
+- Rejected: GCP_* prefix (confused with service account keys)
+
+### issues.md
+PEAK-169: GitHub Actions WIF Fix
+- Status: Complete (2025-10-28)
+- Grade: A+ (98/100)
+- Duration: 25 minutes
+- Related: PR #32
+```
+
+**See `references/ticket_tracking_pr_management.md` for complete integration examples.**
 
 ## Quick Reference Checklist
 
 ### Creating Instructions:
+- [ ] **Check ticket/current_ticket.md** for context
+- [ ] **Use instruction_structure.md template** as base
 - [ ] Start with logging requirements (use tee examples)
-- [ ] Include testing protocol section
-- [ ] Specify required agents (qa-enforcer, change-explainer, etc.)
+- [ ] Include testing protocol section (progressive schedule)
+- [ ] Specify required agents (qa-enforcer MANDATORY, change-explainer for docs)
 - [ ] Add resilience and recovery instructions
-- [ ] Define clear success criteria (10-15 items)
+- [ ] Define clear success criteria (10-15 items with checkboxes)
+- [ ] Include completion checklist at end
+- [ ] Add error handling section with specific patterns
+- [ ] Include rollback procedures
 - [ ] Use correct file naming pattern
 - [ ] Create BOTH human summary AND detailed instructions
+- [ ] **Update ticket/current_ticket.md** with task breakdown
+
+### Creating PR Descriptions:
+- [ ] **Read ticket files** (current_ticket.md and detailed ticket file)
+- [ ] Extract problem/feature from ticket
+- [ ] Extract solution approach from ticket
+- [ ] **List changes from instruction file descriptions**
+- [ ] Include testing results
+- [ ] Add rollback procedure from ticket
+- [ ] Link to execution logs
+- [ ] Use PR template from references
+- [ ] Create via `gh pr create --body-file pr-body.md`
+
+### After Ticket Completion:
+- [ ] Archive ticket files to ticket/archive/
+- [ ] **Invoke project-memory skill** to update code agent's docs/project_notes
+- [ ] Update key_facts.md with new info
+- [ ] Update bugs.md if bug was fixed
+- [ ] Update decisions.md if architectural decisions made
+- [ ] Update issues.md with ticket status
 
 ### Grading Work:
 - [ ] Read code agent's logs thoroughly
 - [ ] Verify every action has verification
-- [ ] Check testing was performed progressively
-- [ ] Confirm agents used correctly
+- [ ] Check testing was performed progressively (not just at end)
+- [ ] Confirm agents used correctly (right agent for right purpose)
+- [ ] Check CI/CD changes were actually tested
 - [ ] Score all 6 categories using rubric
 - [ ] Apply automatic caps if warranted
 - [ ] Document evidence from logs/code
 - [ ] Use matching description for grade filename
+- [ ] **Update ticket/current_ticket.md** with grade
 
 ## Key Principles
 
