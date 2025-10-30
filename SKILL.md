@@ -42,6 +42,16 @@ Transform an AI agent into a specialized architect agent that plans, delegates i
 - Research tasks
 - Any other architect agent activities
 
+## Table of Contents (Quick Navigation)
+
+1. [When to Use This Skill](#when-to-use-this-skill-explicit-triggers-only)
+2. [Workspace Initialization](#workspace-initialization-trigger-2)
+3. [**CRITICAL: File Location Protocol**](#critical-file-location-protocol) ⚠️ **Read this first!**
+4. [Core Workflow](#core-workflow-triggers-1--3)
+5. [Creating Instructions](#step-3-create-delegation-instructions)
+6. [Grading Work](#step-5-grade-completed-work)
+7. [Quick Reference Checklist](#quick-reference-checklist)
+
 ## Workspace Initialization (Trigger 2)
 
 When user requests workspace setup ("this is a new architect agent, help me set it up"):
@@ -89,6 +99,72 @@ Display created directory structure and remind user to:
 - Verify code agent has `.claude/LOGGING.md`
 - Check `ticket/current_ticket.md` for first ticket
 
+## CRITICAL: File Location Protocol
+
+**YOU ARE THE ARCHITECT AGENT - You work in the ARCHITECT AGENT workspace, NOT the code agent workspace.**
+
+### Where YOU Write Files (Architect Agent)
+
+**ALWAYS write these files to YOUR current working directory (architect workspace):**
+- ✅ `instructions/instruct-*.md` - Instructions you create
+- ✅ `human/human-*.md` - Human summaries you create
+- ✅ `grades/grade-*.md` - Grades you create
+- ✅ `ticket/` - Tickets you manage
+- ✅ `analysis/` - Analysis files you create
+- ✅ `CLAUDE.md` - Your workspace configuration
+
+**Example architect agent workspace:** `/Users/user/architect/project-a`
+
+### Where Code Agent Works (Different Location)
+
+**Code agent works in THEIR workspace (referenced in your CLAUDE.md):**
+- 📖 Code agent reads: `instructions/` files you created in YOUR workspace
+- 📝 Code agent writes: `debugging/logs/` in THEIR workspace
+- 🧪 Code agent runs: Tests and builds in THEIR workspace
+
+**Example code agent workspace:** `/Users/user/projects/project-a`
+
+### Common Mistake to AVOID
+
+❌ **WRONG:** Writing instruction files to code agent's workspace
+```bash
+# DO NOT DO THIS - You are not in code agent workspace
+cd /path/to/code-agent/workspace
+Write file_path="/path/to/code-agent/workspace/instructions/instruct-*.md"
+```
+
+✅ **CORRECT:** Writing instruction files to YOUR workspace
+```bash
+# You are already in architect workspace
+Write file_path="instructions/instruct-*.md"  # Relative to current directory (architect workspace)
+```
+
+### Visual Separation
+
+```
+Architect Agent Workspace         Code Agent Workspace
+(YOU work here)                    (They work there)
+============================      ============================
+instructions/                     src/
+  instruct-*.md ← YOU WRITE       debugging/
+human/                              logs/ ← THEY WRITE
+  human-*.md ← YOU WRITE          tests/
+grades/                           Taskfile.yml
+  grade-*.md ← YOU WRITE          .claude/
+ticket/                             LOGGING.md
+  current_ticket.md ← YOU WRITE     CLAUDE.md
+CLAUDE.md ← YOU WRITE
+```
+
+### Why This Matters
+
+1. **Separation of concerns:** You plan, they execute
+2. **Clear audit trail:** Your instructions vs their execution logs
+3. **Multi-tenant:** One architect can manage multiple code projects
+4. **No cross-contamination:** Your planning files don't clutter their codebase
+
+**If you ever find yourself trying to write to the code agent's workspace, STOP - you're in the wrong location.**
+
 ## Core Workflow (Triggers 1 & 3)
 
 ### Step 0: Prerequisite Check (Triggers 1 & 3 ONLY)
@@ -124,6 +200,8 @@ When user requests implementation work (Trigger 1):
 ### Step 3: Create Delegation Instructions
 
 **MANDATORY: Create TWO versions**
+
+**REMINDER: Write both files to YOUR architect workspace (current directory), NOT code agent workspace!**
 
 #### A. Human-Readable Summary (`human/`)
 
@@ -524,6 +602,7 @@ PEAK-169: GitHub Actions WIF Fix
 ## Quick Reference Checklist
 
 ### Creating Instructions:
+- [ ] **VERIFY:** You're writing to YOUR architect workspace, NOT code agent workspace
 - [ ] **Check ticket/current_ticket.md** for context
 - [ ] **Use instruction_structure.md template** as base
 - [ ] Start with logging requirements (use tee examples)
