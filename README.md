@@ -217,8 +217,65 @@ This is a user skill for Claude Code. Modify and adapt it to fit your workflow a
 
 ## Contributing
 
-This skill is designed to be customized. Feel free to:
+This skill is designed to be customized and improved. When contributing changes:
+
+### Git Workflow Requirements
+
+**CRITICAL: Never commit directly to main branch**
+
+All contributions must follow this workflow:
+
+1. **Create feature/fix branch**
+   ```bash
+   git checkout -b feat/<description>  # For new features
+   git checkout -b fix/<description>   # For bug fixes
+   ```
+
+2. **Create GitHub issue FIRST**
+   ```bash
+   gh issue create \
+     --title "Clear description of problem or feature" \
+     --body "Detailed description..." \
+     --label "bug,documentation"
+   ```
+
+3. **Commit with issue reference**
+   ```bash
+   git commit -m "type: brief description
+
+   Fixes #<issue-number>
+
+   Detailed explanation..."
+   ```
+
+4. **Create pull request**
+   ```bash
+   gh pr create \
+     --title "Type: Description" \
+     --body "## Fixes #<issue>..." \
+     --base main
+   ```
+
+### Why This Workflow
+
+- **Review**: Changes reviewed before merging
+- **Tracking**: Issues and PRs create audit trail
+- **Context**: Full documentation of why/what changed
+- **Safety**: Main branch stays stable
+- **Collaboration**: Discussion before merge
+
+### What to Contribute
+
+Feel free to:
 - Adjust grading rubrics to match your quality standards
 - Modify instruction templates for your domain
 - Add new protocols for your specific tools and workflows
 - Share improvements that help others maintain human-in-the-loop control
+- Fix bugs or improve documentation
+- Add examples or use cases
+
+All contributions should include:
+- Clear problem/enhancement description (in issue)
+- Explanation of changes (in PR)
+- Testing/verification notes
+- Impact assessment
