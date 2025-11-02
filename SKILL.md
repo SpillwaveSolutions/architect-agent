@@ -35,6 +35,17 @@ Transform an AI agent into a specialized architect agent that plans, delegates i
 - **If directories missing**: Inform user this is not an architect agent workspace
 - **Action**: Review logs, apply grading rubric, create grade file
 
+**Trigger 4: User requests sending instructions to code agent** ⭐ NEW
+- User says: "send instructions to code agent"
+- User says: "send these instructions to the code agent"
+- **Prerequisite Check**:
+  - Verify architect agent directories exist
+  - Verify code agent workspace path is configured in CLAUDE.md
+  - Verify instruction file exists to send
+- **If prerequisites missing**: Inform user what is needed
+- **Action**: Copy instruction to code agent's `debugging/instructions/` with simplified UUID-based naming, display summary
+- **See**: `references/instruction_grading_workflow.md` for complete protocol
+
 **DO NOT trigger this skill for:**
 - General architecture discussions
 - Brainstorming or exploration
@@ -50,7 +61,8 @@ Transform an AI agent into a specialized architect agent that plans, delegates i
 4. [Core Workflow](#core-workflow-triggers-1--3)
 5. [Creating Instructions](#step-3-create-delegation-instructions)
 6. [Grading Work](#step-5-grade-completed-work)
-7. [Quick Reference Checklist](#quick-reference-checklist)
+7. [⭐ NEW: Instruction-Grading Workflow](#instruction-grading-workflow-trigger-4) - Send instructions, grade, iterate
+8. [Quick Reference Checklist](#quick-reference-checklist)
 
 ## Workspace Initialization (Trigger 2)
 
@@ -598,6 +610,68 @@ PEAK-169: GitHub Actions WIF Fix
 ```
 
 **See `references/ticket_tracking_pr_management.md` for complete integration examples.**
+
+## Instruction-Grading Workflow (Trigger 4)
+
+**NEW: Iterative instruction-grading workflow for code agents**
+
+This workflow enables you to send instructions to code agents, track execution in a temporary workspace, grade their work, and iteratively improve until achieving ≥95% quality.
+
+### Quick Overview
+
+1. **You:** "send instructions to code agent"
+2. **Architect:** Copies instruction to code agent's `debugging/instructions/` with UUID
+3. **You → Code Agent:** "run instructions"
+4. **Code Agent:** Executes work, creates logs
+5. **You → Architect:** "grade the work"
+6. **Architect:**
+   - Score ≥95%: Deletes instruction (success!)
+   - Score <95%: Creates improvement instruction
+7. **You → Code Agent:** "improve your score" (if needed)
+8. **Repeat:** Until ≥95% achieved
+
+### Key Features
+
+**Temporary Workspace:**
+- Instructions copied to code agent's `debugging/instructions/`
+- Simplified naming: `<uuid>-YYYYMMDD-HHMM.md`
+- Auto-cleanup on grading (Option 3: delete old graded files on next grading cycle)
+- Maximum 0-2 files at any time
+
+**Automatic Cleanup:**
+- Score ≥95%: Instruction deleted immediately
+- Score <95%: Old graded files deleted on next grading cycle
+- Keeps only current work + optional previous graded reference
+
+**Memory Updates:**
+- Architect updates code agent's CLAUDE.md with learnings
+- Patterns to avoid after failures
+- Patterns to reuse after successes
+
+**Full Protocol:**
+See `references/instruction_grading_workflow.md` for complete details including:
+- File naming conventions
+- UUID generation
+- Summary generation (adaptive 3-15 points)
+- Improvement instruction structure
+- CLAUDE.md/AGENTS.md templates
+- Multi-iteration examples
+
+### When to Use
+
+Use this workflow when:
+- Code agent needs clear, structured instructions
+- You want iterative improvement until quality threshold met
+- You want automatic cleanup of temporary files
+- You want code agent to learn from past work
+
+### Integration with Existing Workflow
+
+This **supplements** the existing architect agent workflow:
+- All existing protocols still apply (logging, testing, grading rubrics)
+- Architect workspace files unchanged (instructions/, grades/, human/)
+- Code agent workspace gets temporary `debugging/instructions/` directory
+- Dual file creation: Full instruction in architect workspace + copy in code agent workspace
 
 ## Quick Reference Checklist
 

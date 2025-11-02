@@ -78,6 +78,42 @@ Instead of simply asking an AI to "fix the bug" or "add a feature" and hoping fo
 # Understand what changed and why
 ```
 
+### ⭐ NEW: Iterative Instruction-Grading Workflow
+
+Send instructions directly to code agents and iterate until achieving 95%+ quality:
+
+```bash
+# 1. Architect creates and sends instructions
+You → Architect: "send instructions to code agent"
+Architect: Copies to code agent's debugging/instructions/ with UUID
+           Shows 10-point summary
+
+# 2. Code agent executes
+You → Code Agent: "run instructions"
+Code Agent: Implements features, creates logs
+            Signals: "instructions completed, ready for grading"
+
+# 3. Architect grades the work
+You → Architect: "grade the work"
+Architect: Reviews logs, grades against rubric
+
+# If score ≥95%: Success! Instruction deleted, work complete
+# If score <95%: Creates improvement instruction
+
+# 4. Code agent improves (if needed)
+You → Code Agent: "improve your score"
+Code Agent: Implements targeted fixes
+            Signals: "improvements completed, ready for re-grading"
+
+# 5. Repeat grading until ≥95% achieved
+```
+
+**Key benefits:**
+- **Automatic cleanup**: Old graded files deleted on next grading cycle
+- **Iterative improvement**: Clear feedback until quality threshold met
+- **Learning retention**: Architect updates code agent's CLAUDE.md with patterns
+- **Temporary workspace**: `debugging/instructions/` stays clean (max 0-2 files)
+
 ## Key Features
 
 ### File Naming Convention
@@ -192,6 +228,9 @@ See the `references/` directory for detailed protocols:
 - `file_naming.md` - File naming conventions and patterns
 - `git_pr_management.md` - Pull request creation workflows
 - `grading_rubrics.md` - Objective evaluation criteria
+- `instruction_grading_workflow.md` - ⭐ NEW: Iterative instruction-grading workflow protocol
+- `code_agent_claude_template.md` - ⭐ NEW: Template for code agent CLAUDE.md sections
+- `code_agent_agents_template.md` - ⭐ NEW: Template for code agent AGENTS.md collaboration protocol
 
 ## Example: Multi-Phase Project
 
