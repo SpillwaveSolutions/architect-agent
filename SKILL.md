@@ -1,6 +1,6 @@
 ---
 name: architect-agent
-description: Use this skill ONLY when user explicitly requests: (1) "write instructions for code agent" or "create instructions", (2) "this is a new architect agent, help me set it up" or "initialize architect agent workspace", or (3) "grade the code agent's work". This skill creates delegation instructions, initializes architect agent workspaces with required directory structure, and grades completed work.
+description: "Use this skill ONLY when user explicitly requests: (1) 'write instructions for code agent' or 'create instructions', (2) 'this is a new architect agent, help me set it up' or 'initialize architect agent workspace', or (3) 'grade the code agent's work'. This skill creates delegation instructions, initializes architect agent workspaces with required directory structure, and grades completed work."
 ---
 
 # Architect Agent Workflow Skill
