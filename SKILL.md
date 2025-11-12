@@ -37,13 +37,17 @@ Transform an AI agent into a specialized architect agent that plans, delegates i
 
 **Trigger 4: User requests sending instructions to code agent** ⭐ NEW
 - User says: "send instructions to code agent"
-- User says: "send these instructions to the code agent"
+- User says: "send these instructions" or "send them"
 - **Prerequisite Check**:
   - Verify architect agent directories exist
   - Verify code agent workspace path is configured in CLAUDE.md
   - Verify instruction file exists to send
 - **If prerequisites missing**: Inform user what is needed
-- **Action**: Copy instruction to code agent's `debugging/instructions/` with simplified UUID-based naming, display summary
+- **Action**: Use **SIMPLE BASH COPY** - do NOT invoke Task tool or agents for this
+  ```bash
+  cp /path/to/architect/instructions/instruct-*.md /path/to/code-agent/debugging/instructions/
+  ```
+- **Why keep it simple**: File copy is trivial, doesn't need agent processing, wastes tokens
 - **See**: `references/instruction_grading_workflow.md` for complete protocol
 
 **DO NOT trigger this skill for:**
