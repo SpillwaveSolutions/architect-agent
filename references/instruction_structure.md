@@ -4,6 +4,66 @@
 
 This template ensures architect agents create complete, well-structured instructions that maximize code agent success rates through clear structure, comprehensive logging requirements, explicit success criteria, and proper agent usage.
 
+## Prerequisites (Verify Before Creating Instructions)
+
+### 1. Permissions Setup
+
+**CRITICAL:** Verify both workspaces have permissions configured in `.claude/settings.local.json` to avoid 50+ approval prompts per session.
+
+**Architect Workspace Permissions:**
+- Write access to code agent's `instructions/` and `human/` directories
+- Read access to code agent's `debugging/` directory
+- Git/GitHub command permissions
+
+**Code Agent Workspace Permissions:**
+- Read access to architect agent's `references/` directory
+- Execute permissions for `debugging/scripts/log.sh` and `start-log.sh`
+- Bash permissions for test commands (`task test:*`, etc.)
+
+**If permissions not configured:** Instruct user to see `references/permissions_setup_protocol.md` for complete setup guide.
+
+### 2. Logging Scripts
+
+**Recommended:** Verify code agent workspace has logging scripts configured:
+- `debugging/scripts/log.sh` - Log messages with auto-timestamps
+- `debugging/scripts/start-log.sh` - Initialize logging session
+
+**Benefits:**
+- Zero permission prompts for logging
+- Automatic timestamps
+- Consistent formatting
+
+**If not configured:** Instructions should use manual logging with `tee` (see Logging Requirements section below).
+
+### 3. Code Agent Configuration Files
+
+**Required Files in Code Agent Workspace:**
+- `.claude/LOGGING.md` - Logging protocol documentation
+- `.claude/CLAUDE.md` - Code agent configuration and reminders
+- `.claude/AGENTS.md` (optional) - Agent-specific collaboration protocols
+
+**If missing:** Templates available at:
+- `references/code_agent_claude_template.md`
+- `references/code_agent_agents_template.md`
+
+### 4. Ultrathink Canonical Filename Protocol
+
+**IMPORTANT:** Code agent workspace uses canonical filename `current_instruction.md` for active work.
+
+**Architect Workflow:**
+1. Create instruction in architect workspace with timestamp: `instructions/instruct-2025_11_14-14_30-description.md`
+2. Activate for code agent: `./scripts/activate-instruction.sh <file> <code-workspace>`
+3. Instruction copied to code workspace as `debugging/instructions/current_instruction.md`
+4. After completion, code agent archives as `archive/instruct-2025_11_14-14_30-completed.md`
+
+**Benefits:**
+- Zero ambiguity: Only ONE active instruction
+- Clean workspace: No accumulation of timestamped files
+- QUEUE.md tracks lifecycle: Active → Queued → Completed
+- Proactive detection: Code agent checks for work on session start
+
+**See:** `references/permissions_setup_protocol.md` - Ultrathink Canonical Filename Protocol section
+
 ## Complete Instruction Template
 
 ```markdown
