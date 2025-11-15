@@ -105,20 +105,29 @@ After the code agent completes work, perform thorough verification and grading b
 
 **Measures:** Log completeness, timestamp accuracy, update frequency
 
+**UPDATED for Hybrid Logging Protocol v2.0** (uses hooks + manual decision logging)
+
 | Score | Criteria |
 |-------|----------|
-| 10 | Perfect logging, real-time updates |
-| 8 | Good logging, timely updates |
-| 6 | Adequate logging, some delays |
-| 4 | Poor logging, significant gaps |
-| 0-3 | No logging or useless logs |
+| 10 | Perfect logging: Hooks capturing all commands, manual logging covers all decisions/rationale/investigations |
+| 8 | Good logging: Hooks working, most key decisions logged manually |
+| 6 | Adequate logging: Some manual decision entries missing, but hooks operational |
+| 4 | Poor logging: Hooks not configured OR many decisions not logged |
+| 0-3 | No logging or batch logs at end (v1.0 style manual logging only) |
 
 **Check:**
 - [ ] Log filename matches instruction description
-- [ ] Timestamps in [HH:MM:SS] format
-- [ ] Logged after every 3 commands or 5 minutes
-- [ ] Command, purpose, result format used
-- [ ] Final summary with outcomes
+- [ ] Hooks configured in `.claude/hooks.json` and capturing tool calls automatically
+- [ ] Timestamps in [HH:MM:SS] format (automatic via hooks)
+- [ ] Manual decision logging used for: decisions, rationale, investigations, verifications, deviations, milestones
+- [ ] `log-decision.sh` script present and executable in `debugging/scripts/`
+- [ ] Permissions configured for `log-decision.sh` (no approval prompts)
+- [ ] Final summary with outcomes via `/log-complete`
+
+**Deductions:**
+- Hooks not configured or not working: -3 points
+- Missing manual logging for key decisions: -1 point per occurrence (max -5)
+- Still using old v1.0 manual `echo` + `tee` instead of hooks: -2 points (wasteful token usage)
 
 ## Grade Calculation
 
