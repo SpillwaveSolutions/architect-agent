@@ -136,9 +136,11 @@ Architect agents and code agents work in **separate workspaces** and need explic
       "Bash(./debugging/scripts/log.sh:*)",
       "Bash(./debugging/scripts/start-log.sh:*)",
       "Bash(./debugging/scripts/log-decision.sh:*)",
+      "Bash(./debugging/scripts/get-unstuck.sh:*)",
       "Bash(debugging/scripts/log.sh:*)",
       "Bash(debugging/scripts/start-log.sh:*)",
       "Bash(debugging/scripts/log-decision.sh:*)",
+      "Bash(debugging/scripts/get-unstuck.sh:*)",
       "Bash(task test:*)",
       "Bash(.specify/scripts/**)",
 
