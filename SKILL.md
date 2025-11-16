@@ -276,12 +276,195 @@ Save grade at: `grades/grade-YYYY_MM_DD-HH_MM-same_description.md`
    ```
 3. **Verify code agent has `.claude/LOGGING.md`** in its workspace
 4. **Set up file paths** in architect agent for reading code agent's logs
+5. **⭐ NEW: Configure permissions** for cross-workspace collaboration (see below)
 
 **Example Multi-Tenant Setup:**
 - Architect Agent 1: `/Users/user/architect/project-a` → Code Agent: `/Users/user/projects/project-a`
 - Architect Agent 2: `/Users/user/architect/project-b` → Code Agent: `/Users/user/projects/project-b`
 
 Each architect agent maintains its own `instructions/`, `grades/`, `human/`, and `ticket/` directories while referencing different code agent workspaces.
+
+## Permissions Setup (CRITICAL for Smooth Operation)
+
+**Problem:** Without proper permissions, every file operation requires user approval, causing 50+ prompts per session and dramatically slowing execution.
+
+**Solution:** Configure `.claude/settings.local.json` in both workspaces to pre-approve cross-workspace operations.
+
+### Quick Setup
+
+#### 1. Architect Agent Permissions
+
+**File:** `~/.claude/skills/architect-agent/.claude/settings.local.json`
+
+**Minimum Required Permissions:**
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh pr create:*)",
+      "Write(//Users/<username>/clients/*/src/**/instructions/**)",
+      "Write(//Users/<username>/clients/*/src/**/human/**)",
+      "Read(//Users/<username>/clients/*/src/**/debugging/**)",
+      "Read(//Users/<username>/clients/*/src/**/*.md)",
+      "Read(//Users/<username>/clients/*/src/**/*.py)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
+```
+
+**Why These Permissions:**
+- `Write(instructions/**)` - Deliver instruction files to code agent
+- `Write(human/**)` - Deliver human-readable summaries
+- `Read(debugging/**)` - Read logs to grade work
+- `Read(**/*.md)` - Understand project context
+- Git/GitHub commands - Create PRs and commits
+
+#### 2. Code Agent Permissions
+
+**File:** `~/clients/project/src/project-name/.claude/settings.local.json`
+
+**Minimum Required Permissions:**
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Read(//Users/<username>/.claude/skills/architect-agent/references/**)",
+      "Bash(./debugging/scripts/log.sh:*)",
+      "Bash(./debugging/scripts/start-log.sh:*)",
+      "Bash(debugging/scripts/log.sh:*)",
+      "Bash(debugging/scripts/start-log.sh:*)",
+      "Bash(task test:*)",
+      "Write(//Users/<username>/clients/*/src/**/debugging/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
+```
+
+**Why These Permissions:**
+- `Read(architect-agent/references/**)` - Access protocol documentation
+- `Bash(debugging/scripts/log.sh:*)` - Logging without prompts (both `./` and without)
+- `Bash(task test:*)` - Run tests without prompts
+- `Write(debugging/**)` - Create logs and debugging info
+
+### Script-Based Protocol Permissions
+
+**Problem:** Protocols requiring frequent file operations (logging, checkpoints) cause permission prompt spam.
+
+**Solution:** Create bash scripts for repetitive operations and grant blanket permission.
+
+**Example: Logging Scripts**
+
+1. **Create scripts:**
+   - `debugging/scripts/start-log.sh` - Start logging session
+   - `debugging/scripts/log.sh` - Append to log with auto-timestamps
+
+2. **Grant permissions** (both variants to handle `./` prefix):
+   ```json
+   {
+     "allow": [
+       "Bash(./debugging/scripts/log.sh:*)",
+       "Bash(debugging/scripts/log.sh:*)",
+       "Bash(./debugging/scripts/start-log.sh:*)",
+       "Bash(debugging/scripts/start-log.sh:*)"
+     ]
+   }
+   ```
+
+3. **Result:** Zero permission prompts for logging!
+
+**Before:**
+```bash
+# ❌ Every echo requires approval
+echo "[$(date +%H:%M:%S)] Message" >> debugging/logs/log.md
+```
+
+**After:**
+```bash
+# ✅ No prompts!
+./debugging/scripts/log.sh "Message"
+./debugging/scripts/log.sh --success "Task complete"
+```
+
+### Path Patterns
+
+**Use `//` for absolute paths in permissions:**
+```json
+{
+  "allow": [
+    "Read(//Users/username/project/**/*.py)",     // ✅ Absolute
+    "Write(//Users/username/project/output/**)",  // ✅ Absolute
+    "Bash(./scripts/build.sh:*)"                  // ✅ Relative to workspace
+  ]
+}
+```
+
+**Use `**` for recursive matching:**
+```json
+{
+  "allow": [
+    "Read(//path/**/src/**)",                      // All files in src recursively
+    "Write(//path/**/debugging/**)"                // All files in debugging dirs
+  ]
+}
+```
+
+### Security Note
+
+**Grant only needed permissions:**
+```json
+{
+  "allow": [
+    "Bash(git add:*)",                             // ✅ Specific command
+    "Write(//Users/user/project/output/**)"        // ✅ Scoped directory
+  ]
+}
+```
+
+**Avoid overly broad permissions:**
+```json
+{
+  "allow": [
+    "Bash(*)",                                     // ❌ Too broad
+    "Write(//**)"                                  // ❌ Too broad
+  ]
+}
+```
+
+### Complete Documentation
+
+For comprehensive permissions setup including:
+- Common permission patterns
+- Multi-project configurations
+- Troubleshooting permission issues
+- Script-based protocol examples
+- Security considerations
+
+**See:** `references/permissions_setup_protocol.md`
+
+### Setup Checklist
+
+When setting up new architect-code collaboration:
+
+- [ ] Create `.claude/settings.local.json` in architect workspace
+- [ ] Add write access to code workspace `instructions/` and `human/`
+- [ ] Add read access to code workspace `debugging/`
+- [ ] Create `.claude/settings.local.json` in code workspace
+- [ ] Add read access to architect workspace `references/`
+- [ ] Create protocol scripts (logging, etc.) in code workspace
+- [ ] Grant script execution permissions (both `./` and without prefix)
+- [ ] Test permissions by running one instruction cycle
+- [ ] Update if any permission prompts appear
 
 ## Critical Instructions Template Structure
 

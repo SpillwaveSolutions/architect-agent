@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "user-prompt-submit-hook": {
+      "description": "Auto-log all tool executions to active log file",
+      "command": "bash -c '[ -f debugging/current_log_file.txt ] && LOG_FILE=$(cat debugging/current_log_file.txt) && [ -n \"$LOG_FILE\" ] && echo \"[$(date +%H:%M:%S)] User message received\" >> \"$LOG_FILE\" || true'"
+    },
+    "tool-call-hook": {
+      "description": "Log tool calls before execution",
+      "command": "bash -c '[ -f debugging/current_log_file.txt ] && LOG_FILE=$(cat debugging/current_log_file.txt) && [ -n \"$LOG_FILE\" ] && echo -e \"\\n---\\n[$(date +%H:%M:%S)] TOOL: $TOOL_NAME\\nPARAMS: $TOOL_PARAMS\" >> \"$LOG_FILE\" || true'"
+    },
+    "tool-result-hook": {
+      "description": "Log tool results after execution",
+      "command": "bash -c '[ -f debugging/current_log_file.txt ] && LOG_FILE=$(cat debugging/current_log_file.txt) && [ -n \"$LOG_FILE\" ] && echo -e \"[$(date +%H:%M:%S)] RESULT: $([ \"$TOOL_EXIT_CODE\" = \"0\" ] && echo \"✅ Success\" || echo \"❌ Failed (exit $TOOL_EXIT_CODE)\")\\nOUTPUT:\\n$TOOL_OUTPUT\\n---\" >> \"$LOG_FILE\" || true'"
+    }
+  }
+}
