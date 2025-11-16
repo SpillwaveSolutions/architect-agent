@@ -160,6 +160,85 @@ The skill includes detailed protocols for:
    ```
    Reviews logs and code, generates grade report
 
+## Permissions Setup (IMPORTANT)
+
+**Problem:** Without permissions configured, you'll face 50+ approval prompts per session, dramatically slowing AI agent collaboration.
+
+**Solution:** Configure `.claude/settings.local.json` in both architect and code agent workspaces.
+
+### Quick Setup
+
+#### 1. Architect Agent Workspace
+
+Create `~/.claude/skills/architect-agent/.claude/settings.local.json`:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh pr create:*)",
+      "Write(//Users/<username>/clients/*/src/**/instructions/**)",
+      "Write(//Users/<username>/clients/*/src/**/human/**)",
+      "Read(//Users/<username>/clients/*/src/**/debugging/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
+```
+
+**Replace `<username>` with your actual username.**
+
+**Why:** Allows architect agent to write instructions, read logs, and manage git without prompts.
+
+#### 2. Code Agent Workspace
+
+Create `.claude/settings.local.json` in your code project:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(./debugging/scripts/log.sh:*)",
+      "Bash(debugging/scripts/log.sh:*)",
+      "Read(//Users/<username>/.claude/skills/architect-agent/references/**)",
+      "Bash(task test:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
+```
+
+**Why:** Allows code agent to access protocols, run tests, and use logging scripts without prompts.
+
+### Script-Based Protocols
+
+**Best Practice:** Create bash scripts for repetitive operations (logging, checkpoints) and grant permission once.
+
+**Example:** Logging scripts eliminate 20+ prompts per session:
+
+```bash
+# Instead of repeated permission prompts:
+echo "[$(date +%H:%M:%S)] Message" >> log.md  # ❌ Prompts every time
+
+# Use approved scripts:
+./debugging/scripts/log.sh "Message"          # ✅ No prompts!
+./debugging/scripts/log.sh --success "Done"   # ✅ No prompts!
+```
+
+**See:** `references/permissions_setup_protocol.md` for complete documentation including:
+- Common permission patterns
+- Multi-project configurations
+- Troubleshooting
+- Security considerations
+
 ## Directory Structure
 
 ```
@@ -171,8 +250,11 @@ your-project/
 ├── grades/                # Your evaluations of completed work
 │   └── grade-*.md
 ├── debugging/
-│   └── logs/             # Real-time logs of all work
-│       └── log-*.md
+│   ├── logs/             # Real-time logs of all work
+│   │   └── log-*.md
+│   └── scripts/          # Protocol scripts (logging, etc.)
+│       ├── log.sh
+│       └── start-log.sh
 └── current_ticket.md     # Active ticket tracking
 ```
 
@@ -222,6 +304,7 @@ The consistent instruction format ensures your intent is clearly communicated re
 ## References
 
 See the `references/` directory for detailed protocols:
+- `permissions_setup_protocol.md` - ⭐ NEW: Cross-workspace permissions configuration and script-based protocols
 - `agent_specialization.md` - When to use which specialized agents
 - `testing_protocol.md` - Mandatory testing and quality requirements
 - `logging_protocol.md` - Real-time command logging procedures
