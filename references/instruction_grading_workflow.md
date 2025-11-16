@@ -2,7 +2,7 @@
 
 ## Overview
 
-This protocol enables architect agents to send instructions to code agents, track their execution, grade the work, and iteratively improve until achieving ≥95% quality scores. The workflow uses the code agent's `debugging/instructions/` directory as a temporary workspace while maintaining all history in the architect agent's directories.
+This protocol enables architect agents to send instructions to code agents, track their execution, grade the work, and iteratively improve until achieving ≥95% quality scores. The workflow uses a single `current_instructions.md` file in the code agent's `debugging/instructions/` directory as a temporary workspace while maintaining all history in the architect agent's directories.
 
 ## Directory Separation
 
@@ -22,7 +22,8 @@ This protocol enables architect agents to send instructions to code agents, trac
 ├── src/                 # Their codebase
 ├── debugging/
 │   ├── logs/           # Execution logs they create
-│   └── instructions/   # TEMPORARY workspace for active instructions
+│   └── instructions/   # TEMPORARY workspace - single file only
+│       └── current_instructions.md
 ├── CLAUDE.md           # Includes instruction protocol
 └── AGENTS.md           # Includes delegation protocol
 ```
@@ -39,11 +40,10 @@ human/human-YYYY_MM_DD-HH_MM-ticket_id_phase_description.md
 
 ### Code Agent Temporary Instructions
 ```
-debugging/instructions/<6-digit-uuid>-YYYYMMDD-HHMM.md                    # Active instruction
-debugging/instructions/<6-digit-uuid>-YYYYMMDD-HHMM-graded-<score>.md   # Graded, awaiting cleanup
+debugging/instructions/current_instructions.md    # Always ONE file, simple name
 ```
 
-**UUID Generation**: Use random 6-character hex (e.g., `a1b2c3`, `d4e5f6`)
+**Principle**: ONE instruction active at a time. All history preserved in architect workspace only.
 
 ## Complete Workflow
 
@@ -57,21 +57,19 @@ debugging/instructions/<6-digit-uuid>-YYYYMMDD-HHMM-graded-<score>.md   # Graded
    instructions/instruct-2025_10_30-14_30-tkt123_phase2_implement_auth.md
    ```
 
-2. Generate 6-digit UUID (e.g., `a1b2c3`)
-
-3. Copy instruction to code agent workspace with simplified naming:
+2. Copy instruction to code agent workspace with simple naming:
    ```
-   /path/to/code-agent/debugging/instructions/a1b2c3-20251030-1430.md
+   /path/to/code-agent/debugging/instructions/current_instructions.md
    ```
 
-4. Generate 10-point summary (adapt based on complexity):
+3. Generate adaptive summary (based on complexity):
    - Simple task: 3-5 bullet points
    - Medium task: 7-10 bullet points
    - Complex task: 10-15 bullet points with categorization
 
-5. Display to user:
+4. Display to user:
    ```
-   📄 File: debugging/instructions/a1b2c3-20251030-1430.md
+   📄 File: debugging/instructions/current_instructions.md
 
    📋 Summary (10 points):
    1. Implement JWT-based authentication
@@ -93,22 +91,14 @@ debugging/instructions/<6-digit-uuid>-YYYYMMDD-HHMM-graded-<score>.md   # Graded
 **You tell code agent:** "run instructions"
 
 **Code agent actions:**
-1. Check `debugging/instructions/` directory
-2. If single file exists: Auto-run
-3. If multiple files exist: Prompt user to select
+1. Check for `debugging/instructions/current_instructions.md`
+2. If exists: Run it immediately (no selection needed)
+3. If not exists: Report "No current instructions found"
 4. Execute tasks per instruction file
 5. Create logs in `debugging/logs/`
 6. Signal completion: "Instructions completed, ready for grading"
 
-**Code agent multi-file detection:**
-```
-Found 3 instruction sets:
-1. [a1b2c3] Feature: User Authentication (2025-10-30 14:30)
-2. [d4e5f6] Fix: Memory Leak (2025-10-30 16:45) [NEEDS IMPROVEMENT - Score: 82%]
-3. [g7h8i9] Refactor: Database Layer (2025-10-30 18:20)
-
-Which would you like to run? (1-3, or 'latest')
-```
+**Simplicity**: Always one file, no multi-file detection needed.
 
 ### Phase 3: Grading
 
@@ -116,24 +106,18 @@ Which would you like to run? (1-3, or 'latest')
 
 **Architect agent actions:**
 
-#### Step 1: Cleanup Previous Graded Files
-```bash
-# Delete any files matching *-graded-*.md pattern
-rm -f /path/to/code-agent/debugging/instructions/*-graded-*.md
-```
-
-#### Step 2: Grade Current Work
+#### Step 1: Grade Current Work
 1. Read code agent's logs from `debugging/logs/`
 2. Review code changes
 3. Apply grading rubric (see `grading_rubrics.md`)
 4. Calculate score (0-100)
 
-#### Step 3: Handle Based on Score
+#### Step 2: Handle Based on Score
 
 **If score ≥95% (SUCCESS):**
 ```
 1. Display grade report
-2. Delete instruction file from code agent workspace
+2. Delete current_instructions.md from code agent workspace
 3. Archive in architect workspace (already exists)
 4. Optionally update code agent's CLAUDE.md with learnings
 
@@ -159,17 +143,13 @@ Added to code agent's CLAUDE.md:
 
 **If score <95% (NEEDS IMPROVEMENT):**
 ```
-1. Rename current instruction with grade:
-   a1b2c3-20251030-1430.md → a1b2c3-20251030-1430-graded-82.md
+1. Display detailed grade report
+2. Create improvement instruction in architect workspace:
+   instructions/instruct-2025_10_30-16_45-tkt123_phase2b_improve_auth.md
 
-2. Generate new UUID (e.g., d4e5f6)
+3. REPLACE current_instructions.md in code agent workspace with improvement instructions
 
-3. Create improvement instruction:
-   debugging/instructions/d4e5f6-20251030-1645.md
-
-4. Link to original instruction in improvement file
-
-5. Display detailed feedback
+4. Display feedback
 
 Output:
 📊 Grade: 82%
@@ -179,7 +159,7 @@ Output:
 - Integration tests incomplete (-5)
 - Documentation missing examples (-3)
 
-📝 Created improvement instructions: debugging/instructions/d4e5f6-20251030-1645.md
+📝 Updated current_instructions.md with improvement guidance
 
 Summary:
 1. Add express-rate-limit to login endpoint
@@ -189,11 +169,10 @@ Summary:
 Tell code agent: "improve your score"
 
 Files in code agent workspace:
-- a1b2c3-20251030-1430-graded-82.md (reference)
-- d4e5f6-20251030-1645.md (work on this)
+- current_instructions.md (contains improvement guidance)
 ```
 
-6. Update code agent's CLAUDE.md with pattern to avoid:
+5. Update code agent's CLAUDE.md with pattern to avoid:
 ```markdown
 ## Testing Requirements
 - Integration tests must cover happy path + error cases
@@ -206,29 +185,25 @@ Files in code agent workspace:
 **You tell code agent:** "improve your score"
 
 **Code agent actions:**
-1. Detect improvement instruction (`d4e5f6-20251030-1645.md`)
-2. Read improvement guidance
-3. Reference original graded file for context (`a1b2c3-...-graded-82.md`)
-4. Implement fixes
-5. Signal: "Improvements completed, ready for re-grading"
+1. Read `current_instructions.md` (now contains improvement guidance)
+2. Reference logs from previous attempt for context
+3. Implement fixes
+4. Signal: "Improvements completed, ready for re-grading"
 
 **You tell architect agent:** "grade the work"
 
 **Architect agent re-grading:**
-1. **Delete old graded file** (`a1b2c3-...-graded-82.md`)
-2. Grade new work (`d4e5f6`)
-3. If ≥95%: Delete `d4e5f6`, done
-4. If <95%: Rename to `d4e5f6-...-graded-89.md`, create new improvement
+1. Grade new work
+2. If ≥95%: Delete `current_instructions.md`, done!
+3. If <95%: REPLACE `current_instructions.md` with new improvement instructions, repeat
 
 ## Improvement Instruction Structure
 
 When creating improvement instructions, include:
 
 ```markdown
-# Instructions: d4e5f6
-Original: a1b2c3
-Attempt: 2
-Previous Score: 82%
+# Improvement Instructions
+Previous Attempt Score: 82%
 
 ## What Was Missing
 
@@ -273,10 +248,7 @@ Based on grading of previous attempt:
 - Examples work when copy-pasted
 - Cover both success and error cases
 
-## Original Context
-
-Reference the original instruction for full requirements:
-`debugging/instructions/a1b2c3-20251030-1430-graded-82.md`
+## Context from Previous Attempt
 
 You already completed:
 ✅ JWT authentication implementation
@@ -293,36 +265,34 @@ Only work on the improvement areas above.
 ### Success on First Try
 ```
 State 1: Fresh instruction
-debugging/instructions/a1b2c3-20251030-1430.md
+debugging/instructions/current_instructions.md
 
 ↓ Code agent executes
 
 State 2: Grading (97% - success!)
-Architect deletes: a1b2c3-20251030-1430.md
+Architect deletes: current_instructions.md
 
 State 3: Clean
-debugging/instructions/ (empty)
+debugging/instructions/ (empty, or just README.md)
 ```
 
 ### Two Iteration Cycle
 ```
 State 1: Fresh instruction
-debugging/instructions/a1b2c3-20251030-1430.md
+debugging/instructions/current_instructions.md
 
 ↓ Grade: 82%
 
 State 2: After first grading
-debugging/instructions/
-├── a1b2c3-20251030-1430-graded-82.md (reference)
-└── d4e5f6-20251030-1645.md (work on this)
+Architect REPLACES current_instructions.md with improvement guidance
+
+debugging/instructions/current_instructions.md (now contains improvements needed)
 
 ↓ Code agent improves
 ↓ Grade: 96%
 
-State 3: After second grading (cleanup happens)
-Architect deletes:
-- a1b2c3-...-graded-82.md (old graded file)
-- d4e5f6-20251030-1645.md (current file - success!)
+State 3: After second grading (success!)
+Architect deletes: current_instructions.md
 
 State 4: Clean
 debugging/instructions/ (empty)
@@ -331,29 +301,22 @@ debugging/instructions/ (empty)
 ### Three Iteration Cycle
 ```
 State 1: Fresh instruction
-debugging/instructions/a1b2c3-20251030-1430.md
+debugging/instructions/current_instructions.md
 
 ↓ Grade: 82%
 
 State 2: After first grading
-debugging/instructions/
-├── a1b2c3-...-graded-82.md
-└── d4e5f6-....md (improvement 1)
+debugging/instructions/current_instructions.md (replaced with improvement v1)
 
 ↓ Grade: 89% (still <95%)
 
 State 3: After second grading
-Architect deletes: a1b2c3-...-graded-82.md
-debugging/instructions/
-├── d4e5f6-...-graded-89.md (kept as reference)
-└── g7h8i9-....md (improvement 2)
+debugging/instructions/current_instructions.md (replaced with improvement v2)
 
 ↓ Grade: 97% (success!)
 
-State 4: After third grading (cleanup)
-Architect deletes:
-- d4e5f6-...-graded-89.md
-- g7h8i9-....md
+State 4: After third grading
+Architect deletes: current_instructions.md
 
 State 5: Clean
 debugging/instructions/ (empty)
@@ -376,20 +339,18 @@ Architect updates code agent's CLAUDE.md to embed learnings:
 ## Architect-Delegated Instructions Protocol
 
 ### How to Receive Instructions
-1. Architect creates: `debugging/instructions/<uuid>-YYYYMMDD-HHMM.md`
-2. You receive notification with filename + summary
-3. Commands:
-   - "run instructions" - auto-runs if single file exists
-   - "run instruction <uuid>" - runs specific instruction
+1. Architect creates: `debugging/instructions/current_instructions.md`
+2. You receive notification with summary
+3. Command: "run instructions" - auto-runs the file
 
 ### How Instructions are Graded
 - Target score: 95%
 - Architect evaluates against rubric in instruction file
 - Score ≥95%: Instruction deleted (success)
-- Score <95%: New improvement instruction created
+- Score <95%: File replaced with improvement guidance
 
 ### Post-Grading Actions
-- "improve your score" - read latest instruction for improvement guidance
+- "improve your score" - read current_instructions.md for improvement guidance
 - Architect updates this section with learnings
 
 ---
@@ -433,11 +394,11 @@ Architect updates code agent's AGENTS.md to document collaboration patterns:
 ### Receiving Work Instructions
 When architect agent delegates work to you (code agent):
 
-1. **Instruction Location**: `debugging/instructions/<uuid>-YYYYMMDD-HHMM.md`
+1. **Instruction Location**: `debugging/instructions/current_instructions.md`
 
 2. **Instruction Format**:
    ```markdown
-   # Instructions: <UUID>
+   # Instructions
 
    ## Objective
    [Clear goal]
@@ -460,7 +421,7 @@ When architect agent delegates work to you (code agent):
 4. **Grading Cycle**:
    - Architect evaluates your work
    - Score ≥95%: Success, instruction deleted
-   - Score <95%: Improvement instruction created
+   - Score <95%: Improvement instruction replaces current file
    - You respond to: "improve your score"
 
 ---
@@ -497,62 +458,48 @@ When architect agent delegates work to you (code agent):
 
 ### When Architect Grades
 
-**Step 1: Delete old graded files**
-```bash
-# Remove all previously graded files
-find /path/to/code-agent/debugging/instructions/ \
-  -name "*-graded-*.md" \
-  -delete
-```
-
-**Step 2: Grade current work**
+**Step 1: Grade current work**
 - Apply rubric
 - Calculate score
 
-**Step 3: Take action based on score**
+**Step 2: Take action based on score**
 
 If score ≥95%:
 ```bash
 # Delete current instruction (success!)
-rm /path/to/code-agent/debugging/instructions/<uuid>-YYYYMMDD-HHMM.md
+rm /path/to/code-agent/debugging/instructions/current_instructions.md
 ```
 
 If score <95%:
 ```bash
-# Rename with grade
-mv /path/to/code-agent/debugging/instructions/<uuid>-YYYYMMDD-HHMM.md \
-   /path/to/code-agent/debugging/instructions/<uuid>-YYYYMMDD-HHMM-graded-<score>.md
-
-# Create new improvement instruction
-# (with new UUID and timestamp)
+# REPLACE current_instructions.md with improvement instructions
+# (no renaming, no graded files, just replace)
+cp /path/to/architect/instructions/instruct-...-phase2b-improvement.md \
+   /path/to/code-agent/debugging/instructions/current_instructions.md
 ```
 
 ### Maximum Files in Directory
 
-**Typical state:** 0-2 files
+**Always:** 0-1 files
 - 0 files: No active work
-- 1 file: Current instruction to work on
-- 2 files: Previous graded file + new improvement instruction
+- 1 file: `current_instructions.md` (current task to work on)
 
-**After cleanup:** 0 files (all work completed successfully)
+**No graded reference files** - all history in architect workspace
 
 ## Code Agent Commands
 
 ### Running Instructions
 
-**Single instruction present:**
+**Instruction present:**
 ```
 You: "run instructions"
-Code Agent: Automatically runs the single instruction file
+Code Agent: Automatically runs current_instructions.md
 ```
 
-**Multiple instructions present:**
+**No instruction present:**
 ```
 You: "run instructions"
-Code Agent: Lists available instructions with context, asks which to run
-
-You: "run instruction a1b2c3"
-Code Agent: Runs specific instruction by UUID
+Code Agent: "No current instructions found in debugging/instructions/"
 ```
 
 ### Improving Score
@@ -561,23 +508,13 @@ Code Agent: Runs specific instruction by UUID
 ```
 You: "improve your score"
 Code Agent:
-1. Finds latest improvement instruction
-2. References previous graded file for context
+1. Reads current_instructions.md (now contains improvement guidance)
+2. References previous logs for context
 3. Implements targeted improvements
 4. Signals completion
 ```
 
 ## Architect Agent Implementation Notes
-
-### UUID Generation
-```python
-import random
-import string
-
-def generate_uuid():
-    """Generate 6-character hex UUID"""
-    return ''.join(random.choices('0123456789abcdef', k=6))
-```
 
 ### Summary Generation
 ```python
@@ -602,24 +539,20 @@ def generate_summary(instruction_content, complexity):
 
 ### Grading Flow
 ```python
-def grade_work(instruction_uuid):
-    # Step 1: Cleanup
-    delete_old_graded_files()
-
-    # Step 2: Grade
+def grade_work():
+    # Step 1: Grade
     score = evaluate_against_rubric()
 
-    # Step 3: Handle result
+    # Step 2: Handle result
     if score >= 95:
-        delete_instruction(instruction_uuid)
+        delete_current_instructions()
         update_code_agent_memory_if_needed()
         return success_report(score)
     else:
-        rename_with_grade(instruction_uuid, score)
-        improvement_uuid = generate_uuid()
-        create_improvement_instruction(improvement_uuid, score, gaps)
+        improvement_content = create_improvement_guidance(score, gaps)
+        replace_current_instructions(improvement_content)
         update_code_agent_memory_with_patterns()
-        return improvement_report(score, improvement_uuid)
+        return improvement_report(score)
 ```
 
 ## Integration with Existing Architect Agent Workflow
@@ -646,13 +579,13 @@ When sending instructions to code agent:
    - Follows existing instruction_structure.md template
    - Archived normally in architect workspace
 
-2. **Copy to code agent workspace** with simplified naming:
+2. **Copy to code agent workspace** with simple naming:
    ```
-   debugging/instructions/a1b2c3-20251030-1430.md
+   debugging/instructions/current_instructions.md
    ```
    - Same content
-   - Simplified naming for code agent convenience
-   - Temporary (deleted after grading)
+   - Simple naming for code agent convenience
+   - Temporary (deleted after successful grading)
 
 ### Grade Storage
 
@@ -666,9 +599,10 @@ No grades stored in code agent workspace.
 ## Summary
 
 This workflow provides:
-1. **Clear instruction delivery** to code agents via temporary workspace
+1. **Clear instruction delivery** via single `current_instructions.md` file
 2. **Iterative improvement** until quality threshold (95%) achieved
-3. **Automatic cleanup** of temporary files (Option 3: on next grading cycle)
+3. **Automatic cleanup** after successful completion
 4. **Memory retention** by updating code agent's CLAUDE.md and AGENTS.md
 5. **Full compatibility** with existing architect agent protocols
 6. **Separation of concerns** between architect planning and code execution
+7. **Maximum simplicity** - one file, no UUID confusion, no multi-file selection
