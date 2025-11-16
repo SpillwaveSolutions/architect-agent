@@ -86,20 +86,40 @@ After the code agent completes work, perform thorough verification and grading b
 
 **Measures:** Recovery from errors, workarounds, adaptive problem-solving
 
+**UPDATED for Get Unstuck Protocol** (multi-channel research when stuck)
+
 | Score | Criteria |
 |-------|----------|
-| 10 | Excellent recovery, smart workarounds |
-| 8 | Good recovery, reasonable adaptations |
-| 6 | Basic recovery, some rigidity |
-| 4 | Poor recovery, stuck on failures |
-| 0-3 | No recovery attempts, gave up |
+| 10 | Used Get Unstuck protocol when stuck (2-3 attempts), comprehensive multi-channel research, documented findings, found solution or made significant progress |
+| 8-9 | Used Get Unstuck protocol, most channels researched, good synthesis, found solution |
+| 6-7 | Used some research tools, partial Get Unstuck, incomplete documentation OR didn't use Get Unstuck but recovered through other means |
+| 4-5 | Minimal research, repeated same approach 4+ times before trying Get Unstuck |
+| 0-3 | Gave up without Get Unstuck protocol, or never tried systematic research |
 
 **Check:**
-- [ ] Errors were retried with different approaches
+- [ ] Used Get Unstuck protocol when stuck (after 2-3 failed attempts)
+- [ ] Logged acknowledgment of being stuck with attempts documented
+- [ ] Used Perplexity MCP for AI-powered research
+- [ ] Used Brave MCP or WebSearch for web results
+- [ ] Used Context7 MCP for API/library issues (if applicable)
+- [ ] Used Gemini skill for alternative perspective (if available and helpful)
+- [ ] Synthesized findings from multiple sources (decision + rationale logs)
+- [ ] New approach differed meaningfully from previous failed attempts
+- [ ] Documented which resource solved the problem (milestone log)
 - [ ] Workarounds documented when blocked
-- [ ] Used MCPs (context7, perplexity) for research
 - [ ] Deviations from plan justified in logs
-- [ ] `root-cause-debugger` used when stuck
+
+**Bonus Points:**
+- **+2 points:** Used Get Unstuck proactively (after 2 attempts, not 5+)
+- **+1 point:** Documented which specific resource/channel solved the problem
+- **+1 point:** Updated CLAUDE.md with learning for future sessions
+
+**Deductions:**
+- **-3 points:** Repeated same failed approach 5+ times without using Get Unstuck
+- **-5 points:** Asked for help without trying Get Unstuck protocol first
+- **-2 points:** Used Get Unstuck but skipped available channels (e.g., had Context7 but didn't use for API issue)
+- **-4 points:** Gave up after single search attempt (didn't try multiple channels)
+- **-2 points:** No synthesis of research findings (just tried first result)
 
 ### 6. Logging & Traceability (10 points)
 
