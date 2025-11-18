@@ -293,7 +293,8 @@ The AI Code Agent handles the detailed implementation work, but you maintain ove
 
 This skill works with any AI coding assistant:
 
-- **Claude Code**: Full integration with native slash commands
+- **Claude Code**: Full integration with native slash commands and hooks.json
+- **OpenCode**: ✨ Full support via TypeScript plugins or bash wrappers
 - **Cursor**: Use instructions as context for AI pair programming
 - **GitHub Copilot CLI**: Provide instructions as prompts
 - **OpenAI Code Interpreter**: Use structured instructions for code generation
@@ -301,19 +302,66 @@ This skill works with any AI coding assistant:
 
 The consistent instruction format ensures your intent is clearly communicated regardless of which tool executes the work.
 
+### OpenCode Support
+
+**NEW:** Full compatibility with OpenCode for code agent workspaces!
+
+**Choose Your Approach:**
+- **TypeScript Plugin** - Native OpenCode integration with lifecycle hooks
+- **Bash Wrappers** - Works with any OpenCode version
+
+**Key Benefits:**
+- ✅ Same 60-70% token reduction as Claude Code hooks
+- ✅ Identical log format (grading compatible)
+- ✅ Same grading rubrics apply
+- ✅ TypeScript or bash - your choice
+
+**Quick Start (Code Agent with OpenCode):**
+```bash
+# Copy TypeScript plugin (recommended)
+cp -r templates/opencode/plugins/logger .opencode/plugins/
+
+# Enable in opencode.json
+echo '{"plugins": ["./plugins/logger"]}' > .opencode/opencode.json
+
+# Copy session management scripts
+cp templates/opencode/scripts/* debugging/scripts/
+chmod +x debugging/scripts/*.sh
+
+# Copy universal logging scripts (same for Claude Code & OpenCode)
+cp templates/debugging/scripts/log-decision.sh debugging/scripts/
+cp templates/debugging/scripts/get-unstuck.sh debugging/scripts/
+```
+
+**See Full Documentation:**
+- `references/opencode_logging_protocol.md` - Complete OpenCode protocol
+- `references/opencode_setup_guide.md` - Detailed setup instructions
+- `references/opencode_migration_guide.md` - Migrate from Claude Code
+- `references/claude_vs_opencode_comparison.md` - Feature comparison
+
 ## References
 
 See the `references/` directory for detailed protocols:
-- `permissions_setup_protocol.md` - ⭐ NEW: Cross-workspace permissions configuration and script-based protocols
+
+**Core Protocols:**
+- `permissions_setup_protocol.md` - ⭐ Cross-workspace permissions configuration and script-based protocols
 - `agent_specialization.md` - When to use which specialized agents
 - `testing_protocol.md` - Mandatory testing and quality requirements
-- `logging_protocol.md` - Real-time command logging procedures
+- `hybrid_logging_protocol.md` - ✨ NEW: v2.0 logging with hooks (60-70% token savings)
 - `file_naming.md` - File naming conventions and patterns
 - `git_pr_management.md` - Pull request creation workflows
 - `grading_rubrics.md` - Objective evaluation criteria
-- `instruction_grading_workflow.md` - ⭐ NEW: Iterative instruction-grading workflow protocol
-- `code_agent_claude_template.md` - ⭐ NEW: Template for code agent CLAUDE.md sections
-- `code_agent_agents_template.md` - ⭐ NEW: Template for code agent AGENTS.md collaboration protocol
+- `instruction_grading_workflow.md` - ⭐ Iterative instruction-grading workflow protocol
+
+**OpenCode Support:**
+- `opencode_logging_protocol.md` - ✨ NEW: Complete OpenCode logging protocol
+- `opencode_setup_guide.md` - ✨ NEW: Step-by-step OpenCode setup
+- `opencode_migration_guide.md` - ✨ NEW: Migrate from Claude Code to OpenCode
+- `claude_vs_opencode_comparison.md` - ✨ NEW: Feature comparison and decision guide
+
+**Templates:**
+- `code_agent_claude_template.md` - ⭐ Template for code agent CLAUDE.md sections
+- `code_agent_agents_template.md` - ⭐ Template for code agent AGENTS.md collaboration protocol
 
 ## Example: Multi-Phase Project
 

@@ -919,6 +919,78 @@ This **supplements** the existing architect agent workflow:
 6. **Verify every action** - Commands, resources, configurations
 7. **Document deviations** - OK to deviate if justified
 
+## OpenCode Compatibility
+
+This skill supports both **Claude Code** and **OpenCode** for code agents.
+
+### Supported Configurations
+
+✅ **Architect: Claude Code, Code Agent: Claude Code** - Default configuration
+✅ **Architect: Claude Code, Code Agent: OpenCode** - Recommended hybrid approach
+✅ **Architect: OpenCode, Code Agent: OpenCode** - Full open-source setup
+
+### Key Differences for OpenCode Code Agents
+
+| Feature | Claude Code | OpenCode |
+|---------|------------|----------|
+| **Automated Logging** | `.claude/hooks.json` | TypeScript plugin OR bash wrappers |
+| **Session Management** | `/log-start` slash command | `./debugging/scripts/log-start.sh` |
+| **Log Format** | Markdown with timestamps | **Identical** - same format |
+| **Token Efficiency** | 60-70% savings | **Identical** - same savings |
+| **Grading** | 10-point rubric | **Identical** - same rubric |
+
+### Setup for OpenCode Code Agent
+
+When setting up a code agent workspace using OpenCode:
+
+1. **Choose Logging Approach:**
+   - **TypeScript Plugin** (recommended if OpenCode supports plugins)
+   - **Bash Wrappers** (alternative for any OpenCode version)
+
+2. **Copy Templates:**
+   ```bash
+   # For plugin approach
+   cp -r templates/opencode/plugins/logger <code-agent>/.opencode/plugins/
+
+   # For wrapper approach
+   cp templates/opencode/wrapper-scripts/* <code-agent>/debugging/wrapper-scripts/
+   ```
+
+3. **Create Session Management:**
+   ```bash
+   # Scripts to replace /log-start and /log-complete slash commands
+   cp templates/opencode/scripts/* <code-agent>/debugging/scripts/
+   ```
+
+4. **Universal Scripts (Same for Both):**
+   ```bash
+   # These work identically in Claude Code and OpenCode
+   cp templates/debugging/scripts/log-decision.sh <code-agent>/debugging/scripts/
+   cp templates/debugging/scripts/get-unstuck.sh <code-agent>/debugging/scripts/
+   ```
+
+### Grading OpenCode Work
+
+**No grading changes required!**
+
+- Log format is identical between Claude Code and OpenCode
+- Grading rubric applies exactly the same way
+- Same 60-70% token efficiency expected
+- Same mandatory logging requirement
+- Architect agents grade OpenCode logs using the same process
+
+### Documentation References
+
+**For OpenCode-specific guidance:**
+- `references/opencode_logging_protocol.md` - Complete OpenCode protocol
+- `references/opencode_setup_guide.md` - Step-by-step setup
+- `references/opencode_migration_guide.md` - Migrate from Claude Code
+- `references/claude_vs_opencode_comparison.md` - Feature comparison
+
+**All other references (grading, testing, delegation) apply to both Claude Code and OpenCode.**
+
+---
+
 ## Progressive Disclosure
 
 This skill uses three-level loading:
