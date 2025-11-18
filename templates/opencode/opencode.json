@@ -1,0 +1,4 @@
+{
+  "plugins": ["./plugins/logger"],
+  "description": "OpenCode configuration for architect-agent code agent workspace. Enables automated logging via the logger plugin."
+}

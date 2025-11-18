@@ -1492,13 +1492,106 @@ Grant only the permissions needed for the workflow:
 
 ---
 
+## OpenCode-Specific Permissions
+
+**Note:** OpenCode may use a different permission syntax and configuration file structure than Claude Code. Consult OpenCode documentation for the exact format.
+
+### Conceptual Equivalents
+
+The permission concepts remain the same for OpenCode, but the syntax may differ:
+
+**Claude Code Format:**
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(./debugging/scripts/log-decision.sh:*)"
+    ]
+  }
+}
+```
+
+**OpenCode Format (Hypothetical - Check OpenCode Docs):**
+```json
+{
+  "permissions": {
+    "allow": [
+      "debugging/scripts/log-decision.sh",
+      "debugging/wrapper-scripts/*.sh"
+    ]
+  }
+}
+```
+
+### OpenCode Code Agent Permissions
+
+**Likely Location:** `.opencode/settings.json` or `.opencode/config.json`
+
+**Required Permissions for Code Agent:**
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "debugging/scripts/log-decision.sh",
+      "debugging/scripts/log-start.sh",
+      "debugging/scripts/log-complete.sh",
+      "debugging/scripts/get-unstuck.sh",
+      "debugging/wrapper-scripts/run-with-logging.sh",
+      "debugging/wrapper-scripts/log-tool-call.sh",
+      "debugging/wrapper-scripts/log-tool-result.sh"
+    ]
+  }
+}
+```
+
+### OpenCode Architect Agent Permissions
+
+**For cross-workspace access:**
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "read:<code-agent-workspace>/debugging/**",
+      "write:<code-agent-workspace>/instructions/**",
+      "write:<code-agent-workspace>/human/**"
+    ]
+  }
+}
+```
+
+**Note:** Exact syntax depends on OpenCode version. Key principles:
+- Code agent needs to execute logging scripts without prompts
+- Architect needs to read code agent logs
+- Architect needs to write instructions and summaries
+- Both need cross-workspace file access
+
+### Migration Notes
+
+When migrating from Claude Code to OpenCode:
+1. Review OpenCode permission documentation
+2. Translate Claude Code patterns to OpenCode syntax
+3. Test cross-workspace access
+4. Verify script execution works without prompts
+5. Confirm logging workflow operates silently
+
+**See Also:**
+- [OpenCode Setup Guide](./opencode_setup_guide.md) - Detailed OpenCode setup
+- [OpenCode Migration Guide](./opencode_migration_guide.md) - Migrating from Claude Code
+- [OpenCode Logging Protocol](./opencode_logging_protocol.md) - OpenCode-specific logging
+
+---
+
 ## References
 
 - [Claude Code Permissions Documentation](https://code.claude.com/docs/en/configuration/permissions)
 - [Logging Protocol](./logging_protocol.md)
 - [Delegation Protocol](./instruction_structure.md)
 - [Grading Workflow](./instruction_grading_workflow.md)
+- [OpenCode Setup Guide](./opencode_setup_guide.md)
+- [OpenCode Logging Protocol](./opencode_logging_protocol.md)
 
 ---
 
-**Last Updated:** 2025-11-14
+**Last Updated:** 2025-01-17 (Added OpenCode support)
