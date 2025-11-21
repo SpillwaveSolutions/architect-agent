@@ -44,16 +44,20 @@ The Hybrid Logging Protocol combines **automated hook-based logging** for mechan
 
 ## Setup Requirements
 
+### ⚠️ CRITICAL: settings.json NOT hooks.json
+
+**Claude Code ONLY reads hooks from `.claude/settings.json`**
+
+❌ **WRONG:** `.claude/hooks.json` - Claude Code does NOT read this file
+✅ **CORRECT:** `.claude/settings.json` - Claude Code ONLY reads hooks from here
+
+This is THE critical requirement for hooks to work. See [hook_configuration_critical.md](./hook_configuration_critical.md) for complete details.
+
+---
+
 ### 1. Hook Configuration
 
-Copy `templates/hooks.json` to code agent workspace:
-
-```bash
-cp ~/.claude/skills/architect-agent/templates/hooks.json \
-   ~/clients/project/src/project-name/.claude/hooks.json
-```
-
-**File: `.claude/hooks.json`**
+**File: `.claude/settings.json`** (NOT hooks.json!)
 ```json
 {
   "hooks": {
@@ -378,7 +382,8 @@ Slash command `/log-complete` creates this automatically:
 
 1. **Install hooks:**
    ```bash
-   cp ~/.claude/skills/architect-agent/templates/hooks.json .claude/
+   # Hooks must be in settings.json, not hooks.json!
+   # Configure hooks in .claude/settings.json
    ```
 
 2. **Install decision script:**
@@ -439,10 +444,12 @@ Slash command `/log-complete` creates this automatically:
 **Symptom:** No automated entries in log file
 
 **Check:**
-1. Hook file exists: `ls -la .claude/hooks.json`
-2. Log file active: `cat debugging/current_log_file.txt`
-3. Hook syntax valid: `cat .claude/hooks.json | jq .`
-4. Restart Claude Code session
+1. Hooks in settings.json: `grep "PostToolUse" .claude/settings.json`
+2. No hooks.json exists: `ls .claude/hooks.json 2>&1 | grep "No such file"`
+3. Log file active: `cat debugging/current_log_file.txt`
+4. Hook syntax valid: `python3 -m json.tool .claude/settings.json`
+5. Hook logger executable: `ls -la .claude/hook-logger.py`
+6. Restart Claude Code session
 
 ### Decision Script Permission Denied
 
