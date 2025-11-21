@@ -246,8 +246,8 @@ The output shows...
 ## Documentation
 
 **See parent directory for complete guides:**
-- [../INSTALLATION.md](../INSTALLATION.md) - Installation guide
-- [../UPGRADE.md](../UPGRADE.md) - Upgrade guide from v1.0/v2.0
+- [../references/installation.md](../references/installation.md) - Installation guide
+- [../references/upgrade.md](../references/upgrade.md) - Upgrade guide from v1.0/v2.0
 - [../references/quick_start.md](../references/quick_start.md) - Quick start (5/10 min)
 - [../references/workspace_setup_complete.md](../references/workspace_setup_complete.md) - Complete setup checklist
 - [../references/hook_configuration_critical.md](../references/hook_configuration_critical.md) - Critical hooks fix
@@ -260,7 +260,7 @@ The output shows...
 
 1. Run verification script: `./verify-workspace.sh`
 2. Check verification output for specific errors
-3. Review troubleshooting in INSTALLATION.md or UPGRADE.md
+3. Review troubleshooting in references/installation.md or references/upgrade.md
 4. Consult reference documentation
 
 **Most common issue:** Hooks in hooks.json instead of settings.json

@@ -1,3 +1,13 @@
+<!--
+# THIS FILE IS FOR THE ARCHITECT-AGENT SKILL REPOSITORY
+This CLAUDE.md configures the architect-agent skill workspace (THIS repository).
+This is NOT a template for user workspaces.
+
+For templates to copy into your workspaces, see:
+- templates/architect-workspace/CLAUDE.md (for architect agent workspaces)
+- templates/code-agent-workspace/CLAUDE.md (for code agent workspaces)
+-->
+
 # CLAUDE.md - Architect Agent Skill Workspace
 
 ## Repository Purpose
