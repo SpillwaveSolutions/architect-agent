@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # log-complete.sh - Complete a logging session (OpenCode Plugin version)
 # Replacement for Claude Code's /log-complete slash command
-# Part of architect-agent hybrid logging protocol v2.0
+# Part of architect-agent hybrid logging protocol v3.0
+# Complies with SPEC.md Section 2.5 file naming conventions
 
 set -euo pipefail
 
@@ -37,12 +38,13 @@ fi
 # Append session completion footer to the log
 cat >> "$LOG_FILE" <<EOF
 
-================================================================================
-LOGGING SESSION COMPLETED
-================================================================================
-Timestamp: $(date '+%Y-%m-%d %H:%M:%S')
-Log File: ${LOG_FILE}
-================================================================================
+---
+
+## Session Completed
+
+**Completed:** $(date '+%Y-%m-%d %H:%M:%S')
+**Log File:** ${LOG_FILE}
+
 EOF
 
 # Remove the current log file tracker

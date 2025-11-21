@@ -1,3 +1,13 @@
+<!--
+# THIS FILE IS FOR THE ARCHITECT-AGENT SKILL REPOSITORY
+This AGENTS.md defines git workflow requirements for THIS repository (the skill itself).
+This is NOT a template for user workspaces.
+
+For templates to copy into your workspaces, see:
+- templates/architect-workspace/AGENTS.md (for architect agent workspaces)
+- templates/code-agent-workspace/AGENTS.md (for code agent workspaces)
+-->
+
 # AGENTS.md - Agent Workflow Requirements
 
 ## Purpose

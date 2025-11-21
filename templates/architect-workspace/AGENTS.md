@@ -1,4 +1,4 @@
-# CLAUDE.md - Architect Agent Workspace
+# AGENT.md - Architect Agent Workspace
 
 This is an **Architect Agent** workspace for planning and delegation. You do NOT write code - you create instructions for code agents.
 

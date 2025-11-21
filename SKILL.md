@@ -57,12 +57,80 @@ Transform an AI agent into a specialized architect agent that plans, delegates i
 - **Result**: Code agent supports both Claude Code and OpenCode (dual-mode, non-destructive)
 - **See**: Complete workflow and compatibility details in reference guide
 
+**Trigger 6: User requests upgrade** 🔄
+- User says: "upgrade to latest architect agent protocol"
+- User says: "upgrade my architect agent workspace"
+- User says: "migrate to v3.0" or "migrate to latest version"
+- **Prerequisite Check**: Identify current version from workspace structure
+- **Action**: Follow upgrade guide from `references/upgrade.md`
+- **Result**: Workspace upgraded with latest protocols, hooks fix, enhanced logging
+- **See**: Complete migration path and troubleshooting in reference guide
+
+**Trigger 7: User requests automated setup** ⚡
+- User says: "set up architect agent using templates"
+- User says: "use automated workspace setup"
+- User says: "quick install with templates"
+- **Prerequisite Check**: Verify `templates/` directory accessible
+- **Action**: Guide user through `templates/setup-workspace.sh` for instant workspace creation
+- **Result**: Complete workspace with all protocols, scripts, configurations in <5 minutes
+- **See**: `templates/README.md` for complete template documentation and options
+
 **DO NOT trigger this skill for:**
 - General architecture discussions
 - Brainstorming or exploration
 - Reading/analyzing existing code
 - Research tasks
 - Any other architect agent activities
+
+---
+
+## Quick Setup Options
+
+### Automated Template Setup (Recommended) ⚡
+
+**For most users, automated templates are faster and more reliable than manual setup.**
+
+Use pre-built templates for instant workspace creation:
+
+**What you get:**
+- Complete directory structure (instructions/, grades/, human/, ticket/, analysis/)
+- All protocol scripts (.claude/hook-logger.py, debugging/scripts/)
+- Configuration files (CLAUDE.md, AGENTS.md, settings.json)
+- OpenCode support (wrapper scripts, shell-init.sh)
+- Verification tools
+
+**How to use:**
+```bash
+# Navigate to templates
+cd ~/.claude/skills/architect-agent/templates/
+
+# Create code agent workspace
+./setup-workspace.sh code-agent ~/projects/my-code-agent
+
+# Create architect workspace (optional)
+./setup-workspace.sh architect ~/projects/my-architect \
+    --code-agent-path ~/projects/my-code-agent
+
+# Verify installation
+./verify-workspace.sh
+```
+
+**Time to setup:** <5 minutes
+
+**See:** `templates/README.md` for complete template documentation and all options
+
+### Manual Setup
+
+Use workspace initialization trigger (Trigger 2) for step-by-step manual directory creation.
+
+**When to use manual setup:**
+- You want to understand the structure before using automation
+- You need a custom directory layout
+- You're learning the skill's architecture
+
+**Note:** Template setup is recommended even for learning, as you can explore the generated structure afterward.
+
+---
 
 ## Table of Contents (Quick Navigation)
 
@@ -710,9 +778,9 @@ Applies to ALL:
 
 ## Reference Documents
 
-All detailed protocols available in `references/`:
+All detailed protocols available in `references/` - **See `references/README.md` for complete index**
 
-### Core Workflows
+### Core Workflows (9 files)
 1. **`logging_protocol.md`** - Real-time logging with tee, practical examples
 2. **`testing_protocol.md`** - Progressive testing schedule, coverage requirements
 3. **`grading_rubrics.md`** - 6-category grading system, automatic caps
@@ -723,12 +791,39 @@ All detailed protocols available in `references/`:
 8. **`instruction_structure.md`** - Complete instruction template with all sections
 9. **`ticket_tracking_pr_management.md`** - Ticket tracking, PR descriptions from tickets
 
-### OpenCode Integration
-10. **`opencode_integration_quickstart.md`** - **QUICK START:** Migrate code agent to OpenCode support
-11. **`opencode_logging_protocol.md`** - Complete OpenCode logging protocol
-12. **`opencode_setup_guide.md`** - Detailed OpenCode workspace setup
-13. **`opencode_migration_guide.md`** - Full migration guide with troubleshooting
-14. **`claude_vs_opencode_comparison.md`** - Feature comparison and decision framework
+### Setup & Installation (3 files)
+10. **`installation.md`** - Complete installation guide for v3.0+ (automated + manual)
+11. **`upgrade.md`** - Migration guide from v1.0/v2.0 to v3.0+ (hooks fix)
+12. **`quick_start.md`** - Getting started guide (5-minute setup)
+
+### Templates & Configuration (3 files)
+13. **`code_agent_claude_template.md`** - Template sections for code agent CLAUDE.md
+14. **`code_agent_agents_template.md`** - Template sections for code agent AGENTS.md
+15. **`permissions_setup_protocol.md`** - Cross-workspace permissions configuration
+
+### OpenCode Integration Suite (5 files)
+16. **`opencode_integration_quickstart.md`** - **QUICK START:** Migrate code agent to OpenCode support
+17. **`opencode_logging_protocol.md`** - Complete OpenCode logging protocol
+18. **`opencode_setup_guide.md`** - Detailed OpenCode workspace setup
+19. **`opencode_migration_guide.md`** - Full migration guide with troubleshooting
+20. **`claude_vs_opencode_comparison.md`** - Feature comparison and decision framework
+
+### Logging & Hooks (v3.0 Hybrid) (4 files)
+21. **`hybrid_logging_protocol.md`** - Hybrid logging approach (hooks + manual)
+22. **`hybrid_logging_migration_guide.md`** - Migration from manual to hybrid logging
+23. **`hook_configuration_critical.md`** - **CRITICAL FIX:** Hooks in settings.json (not hooks.json)
+24. **`hook_logger_enhancements.md`** - Enhanced hook logger with full argument capture
+
+### Advanced Workflows (3 files)
+25. **`instruction_grading_workflow.md`** - Iterative instruction-grading cycle (NEW in v3.0)
+26. **`get_unstuck_protocol.md`** - Troubleshooting when code agent gets stuck
+27. **`workspace_setup_complete.md`** - Complete workspace setup checklist
+
+### Additional Resources (2 files)
+28. **`opencode_wrapper_setup.md`** - OpenCode wrapper script configuration
+29. **`permissions_setup_protocol.md`** - Detailed permissions examples and patterns
+
+**Total: 29 reference files** - All are discoverable through progressive disclosure
 
 ## project-memory Skill Integration
 

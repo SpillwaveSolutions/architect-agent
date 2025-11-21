@@ -1,6 +1,7 @@
 #!/bin/bash
 # Get Unstuck Protocol Orchestration Script
 # Automates multi-channel research when code agent is blocked
+# Complies with SPEC.md Section 2.5 file naming conventions
 # Usage: ./debugging/scripts/get-unstuck.sh --error "error msg" --context "what doing" --attempts 3
 
 set -e
@@ -101,8 +102,8 @@ echo "- WebSearch: always available" >> "$LOG_FILE"
 echo "- Gemini skill: ${USE_GEMINI}" >> "$LOG_FILE"
 echo "" >> "$LOG_FILE"
 
-# Create research summary file
-RESEARCH_FILE="debugging/get-unstuck-$(date +%Y%m%d-%H%M%S).md"
+# Create research summary file following SPEC.md Section 2.5: YYYY_MM_DD-HH_MM
+RESEARCH_FILE="debugging/get-unstuck-$(date +%Y_%m_%d-%H_%M).md"
 
 cat > "$RESEARCH_FILE" <<EOF
 # Get Unstuck Research
