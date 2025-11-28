@@ -21,7 +21,7 @@ This document describes project-specific technology adaptations and conventions 
 - **Languages:** [Java / Kotlin / TypeScript / Python / etc.]
 - **Framework:** [Spring Boot / FastAPI / Next.js / etc.]
 - **Infrastructure:** [AWS CDK / Pulumi / Terraform / etc.]
-- **Database:** [PostgreSQL / AlloyDB / MongoDB / etc.]
+- **Database:** [PostgreSQL / MySQL / MongoDB / etc.]
 
 ### Testing
 - **Unit Tests:** [JUnit / pytest / Jest / etc.]
@@ -88,7 +88,7 @@ platform-perimeter-data-router/
 ### Ticket Format
 ```
 [KEY]-[NUMBER]: [Title]
-Example: PLATSD-123: Implement AlloyDB Migration
+Example: PROJ-123: Implement Database Migration
 ```
 
 ### Epic Tracking
@@ -111,7 +111,7 @@ Example:
 ### Branch Naming
 ```
 [BRANCH_PREFIX]/[TICKET]-[DESCRIPTION]
-Example: feature/PLATSD-123-alloydb-migration
+Example: feature/PROJ-123-database-migration
 ```
 
 ### GitHub Auth

@@ -35,15 +35,15 @@
 
 **Critical Path:**
 ```
-[PATH_TO_CODE_AGENT_WORKSPACE]/debugging/instructions/current_instruction.md
+[PATH_TO_CODE_AGENT_WORKSPACE]/debugging/instructions/current_instructions.md
 ```
 
 **This is the ONLY file code agent reads for instructions.**
 
 **Workflow:**
 1. Write instruction to YOUR `instructions/` directory
-2. Use `/project.send` to copy to code agent's `current_instruction.md`
-3. Code agent reads from `current_instruction.md`
+2. Use `/project.send` to copy to code agent's `current_instructions.md`
+3. Code agent reads from `current_instructions.md`
 
 ---
 
@@ -85,7 +85,7 @@ gh auth status
 
 **Example:**
 ```
-✅ Logged in to github.com account Rick-Hightower_evinova
+✅ Logged in to github.com account acme-developer
 ```
 
 ### If Not Authenticated
@@ -344,7 +344,7 @@ def calculate_total():
 ### Code Agent Not Reading Instructions
 
 **Check:**
-1. Instruction in correct location: `[CODE_AGENT]/debugging/instructions/current_instruction.md`
+1. Instruction in correct location: `[CODE_AGENT]/debugging/instructions/current_instructions.md`
 2. File permissions allow code agent to read
 3. File has content (not empty)
 

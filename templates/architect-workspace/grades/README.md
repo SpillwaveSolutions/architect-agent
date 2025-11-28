@@ -10,7 +10,7 @@ grade-YYYYMMDD_HHMMSS-brief_description.md
 
 **Must match corresponding instruction file timestamp.**
 
-**Example:** `grade-20251120_143045-implement_alloydb_migration.md`
+**Example:** `grade-20251120_143045-implement_api_refactor.md`
 
 ## Grading Rubric (100 points)
 

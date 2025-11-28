@@ -154,7 +154,7 @@ Display this summary to help review what will be sent to the code agent.
 **Purpose:** Send instructions to code agent, show human summary
 **Content Template:**
 ```markdown
-1. Copy the instruction file to code agent's debugging/instructions/current_instruction.md
+1. Copy the instruction file to code agent's debugging/instructions/current_instructions.md
 2. Read the corresponding human summary from human/ directory
 3. Display the 10-25 bullet point summary to user
 4. Confirm instructions sent successfully
@@ -204,7 +204,7 @@ grep "debugging/instructions" .claude/settings.json && echo "✅ Code agent inst
 **Purpose:** Instructions for Claude Code when working in code agent workspace
 **Required Content:**
 - ✅ Workspace role identification (Code Agent)
-- ✅ Instruction location (`debugging/instructions/current_instruction.md`)
+- ✅ Instruction location (`debugging/instructions/current_instructions.md`)
 - ✅ Technology stack
 - ✅ Essential documentation links
 - ✅ Quality assurance protocol
@@ -213,7 +213,7 @@ grep "debugging/instructions" .claude/settings.json && echo "✅ Code agent inst
 **Verification:**
 ```bash
 grep "Code Agent" CLAUDE.md
-grep "current_instruction.md" CLAUDE.md
+grep "current_instructions.md" CLAUDE.md
 ```
 
 **File:** `AGENTS.md`
@@ -388,7 +388,7 @@ grep "export -f" .opencode/shell-init.sh && echo "✅ Functions exported"
 **Directory:** `debugging/instructions/`
 **Purpose:** Receive instructions from architect agent
 
-**File:** `debugging/instructions/current_instruction.md`
+**File:** `debugging/instructions/current_instructions.md`
 **Purpose:** Canonical location for current instructions
 **Created by:** Architect agent (copied on "send")
 **Read by:** Code agent
@@ -472,7 +472,7 @@ Complete the current logging session using: ./debugging/scripts/log-complete.sh
 **Purpose:** Read and summarize current instructions
 **Content:**
 ```markdown
-Read debugging/instructions/current_instruction.md and create a 10-25 bullet point summary of:
+Read debugging/instructions/current_instructions.md and create a 10-25 bullet point summary of:
 - Main objectives
 - Key requirements
 - Critical constraints

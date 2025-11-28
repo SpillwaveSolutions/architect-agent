@@ -22,7 +22,7 @@ This is an **Architect Agent** workspace for planning and delegation. You do NOT
 
 **⚠️ CRITICAL: Instruction Destination:**
 - ✅ Instructions ALWAYS go to: `[PATH_TO_CODE_AGENT_WORKSPACE]/debugging/instructions/`
-- ✅ Copy to: `current_instruction.md` (canonical filename)
+- ✅ Copy to: `current_instructions.md` (canonical filename)
 - ❌ NEVER put in subdirectory debugging folders
 - ❌ NEVER write instruction files to code agent workspace directly
 - ✅ ALWAYS write to YOUR workspace first, then copy on "send" command
