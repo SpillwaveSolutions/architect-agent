@@ -11,9 +11,9 @@ Both **Claude Code** (Anthropic's official CLI) and **OpenCode** (open-source al
 
 - **Claude Code** → Official support, built-in features, simpler setup
 - **OpenCode** → Open source, customizable, community-driven
-- **Hybrid** → Architect uses Claude Code, Code Agent uses OpenCode (best of both)
+- **Hybrid** → Mix and match! A single project can have code agents using Claude Code alongside code agents using OpenCode
 
-**Bottom Line:** The architect-agent skill provides full compatibility with both tools through the hybrid logging protocol v2.0.
+**Bottom Line:** The architect-agent skill provides full compatibility with both tools through the hybrid logging protocol v2.0. Both tools now have slash command parity (same format, different directory locations).
 
 ---
 
@@ -24,7 +24,7 @@ Both **Claude Code** (Anthropic's official CLI) and **OpenCode** (open-source al
 | **Open Source** | ❌ Proprietary | ✅ Fully open | OpenCode |
 | **Official Support** | ✅ Anthropic-backed | ⚠️ Community | Claude Code |
 | **Automated Logging** | ✅ hooks.json | ✅ Plugin/wrappers | Tie |
-| **Slash Commands** | ✅ Built-in | ❌ Manual scripts | Claude Code |
+| **Slash Commands** | ✅ `.claude/commands/` | ✅ `.opencode/command/` | Tie |
 | **Customizability** | ⚠️ Limited | ✅ Full control | OpenCode |
 | **Setup Complexity** | ✅ Simpler | ⚠️ More steps | Claude Code |
 | **Performance (logging)** | ✅ Fast hooks | ✅ Fast plugin | Tie |
@@ -101,13 +101,15 @@ export default definePlugin({
 
 #### Claude Code
 
-**Built-in Slash Commands:**
+**Slash Commands (built-in):**
 
 ```bash
 /log-start          # Start new log session
 /log-checkpoint     # Manual milestone
 /log-complete       # Complete session
 ```
+
+**Command Directory:** `.claude/commands/`
 
 **Pros:**
 - Zero setup required
@@ -121,7 +123,17 @@ export default definePlugin({
 
 #### OpenCode
 
-**Bash Scripts:**
+**Slash Commands (now supported!):**
+
+```bash
+/log-start          # Start new log session
+/log-checkpoint     # Manual milestone
+/log-complete       # Complete session
+```
+
+**Command Directory:** `.opencode/command/`
+
+**Alternative - Bash Scripts:**
 
 ```bash
 ./debugging/scripts/log-start.sh "task-description"
@@ -129,16 +141,15 @@ export default definePlugin({
 ```
 
 **Pros:**
-- Fully customizable (edit bash scripts)
+- **Slash commands now work identically to Claude Code**
+- Fully customizable (edit markdown files or bash scripts)
 - Transparent (readable implementation)
 - Can add custom logic (notifications, integrations, etc.)
 
 **Cons:**
-- Requires creating/maintaining scripts
-- No built-in commands
-- Manual setup per workspace
+- Requires copying command files (templates provided)
 
-**Verdict:** **Claude Code wins on convenience**, **OpenCode wins on flexibility**
+**Verdict:** **Tie** - Both now have slash command parity. OpenCode still wins on customization.
 
 ---
 
@@ -375,12 +386,14 @@ export default definePlugin({
 
 ✅ **Architect agent** → Claude Code (benefits from slash commands)
 ✅ **Code agent** → OpenCode (open source, customizable)
+✅ **Multiple code agents** → Mix of Claude Code and OpenCode in the same project!
 
 **Benefits:**
 - Architect gets simple UX with built-in commands
 - Code agent gets customization and open-source benefits
 - Both use same log format (grading compatible)
 - Best of both worlds
+- **A single project can use both types of code agents** - some team members can use Claude Code while others use OpenCode
 
 **Example Workflow:**
 ```

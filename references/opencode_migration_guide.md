@@ -33,8 +33,8 @@
 
 ✅ **Official Support** - Maintained by Anthropic
 ✅ **Native Integration** - Built specifically for Claude
-✅ **Slash Commands** - `/log-start`, `/log-checkpoint`, `/log-complete` built-in
-✅ **Simpler Setup** - Hooks.json vs TypeScript plugin
+✅ **Slash Commands** - Both tools now support slash commands (same format!)
+✅ **Simpler Setup** - Hooks.json vs JavaScript plugin
 ✅ **Documentation** - Official Claude Code documentation
 
 ### Hybrid Approach (Best of Both)
@@ -54,11 +54,22 @@ This guide focuses on migrating the **code agent workspace** from Claude Code �
 
 | Claude Code | OpenCode Equivalent | Action |
 |------------|-------------------|--------|
-| `.claude/hooks.json` | `.opencode/plugins/logger/index.ts` OR `debugging/wrapper-scripts/*.sh` | Remove `.claude/hooks.json`, add plugin or wrappers |
+| `.claude/hooks.json` | `.opencode/plugin/logger.js` OR `debugging/wrapper-scripts/*.sh` | Remove `.claude/hooks.json`, add plugin or wrappers |
 | `.claude/settings.local.json` | OpenCode-specific permissions config | Update permissions syntax (consult OpenCode docs) |
-| `/log-start` slash command | `./debugging/scripts/log-start.sh` | Create bash script |
-| `/log-checkpoint` slash command | `./debugging/scripts/log-decision.sh milestone` | Use milestone type |
-| `/log-complete` slash command | `./debugging/scripts/log-complete.sh` | Create bash script |
+| `.claude/commands/*.md` | `.opencode/command/*.md` | Copy slash commands (same format, different directory) |
+| `/log-start` slash command | `/log-start` OR `./debugging/scripts/log-start.sh` | OpenCode now has native slash commands too! |
+| `/log-checkpoint` slash command | `/log-checkpoint` OR `./debugging/scripts/log-decision.sh milestone` | Use slash command or script |
+| `/log-complete` slash command | `/log-complete` OR `./debugging/scripts/log-complete.sh` | Use slash command or script |
+
+### Slash Command Parity (NEW)
+
+**OpenCode now supports slash commands!** The directory structure differs slightly:
+
+| Claude Code | OpenCode |
+|------------|----------|
+| `.claude/commands/` | `.opencode/command/` |
+
+The file format is identical (markdown with optional YAML frontmatter). The templates now include pre-configured OpenCode slash commands that mirror Claude Code's commands exactly.
 
 ### Behavioral Changes
 
