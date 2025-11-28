@@ -27,7 +27,7 @@
 
 **File Naming Convention:**
 ```
-instruct-20251120_143045-implement_alloydb_migration.md
+instruct-20251120_143045-implement_api_refactor.md
 ```
 
 **Instruction Structure:**
@@ -95,7 +95,7 @@ instruct-20251120_143045-implement_alloydb_migration.md
 
 **What Happens:**
 1. Reads latest instruction file from `instructions/`
-2. Copies to code agent's `debugging/instructions/current_instruction.md`
+2. Copies to code agent's `debugging/instructions/current_instructions.md`
 3. Reads matching human summary from `human/`
 4. Displays 10-25 bullet summary to user
 5. Confirms instructions sent
@@ -104,7 +104,7 @@ instruct-20251120_143045-implement_alloydb_migration.md
 ```bash
 # Copy instruction
 cp instructions/instruct-[TIMESTAMP]-[DESC].md \
-   [CODE_AGENT_WORKSPACE]/debugging/instructions/current_instruction.md
+   [CODE_AGENT_WORKSPACE]/debugging/instructions/current_instructions.md
 
 # Show human summary
 cat human/human-[TIMESTAMP]-[DESC].md
@@ -184,13 +184,13 @@ cat human/human-[TIMESTAMP]-[DESC].md
 **Description:** Brief, lowercase with underscores
 - Keep under 50 characters
 - Use clear, descriptive names
-- Example: `implement_alloydb_migration`
+- Example: `implement_api_refactor`
 
 **Matching Files:**
 ```
-instructions/instruct-20251120_143045-implement_alloydb_migration.md
-human/human-20251120_143045-implement_alloydb_migration.md
-grades/grade-20251120_143045-implement_alloydb_migration.md
+instructions/instruct-20251120_143045-implement_api_refactor.md
+human/human-20251120_143045-implement_api_refactor.md
+grades/grade-20251120_143045-implement_api_refactor.md
 ```
 
 **Why Matching Timestamps:**
@@ -225,7 +225,7 @@ code-agent-workspace/
 ├── AGENTS.md
 ├── debugging/
 │   ├── instructions/           # Instructions sent HERE
-│   │   └── current_instruction.md  # Canonical instruction
+│   │   └── current_instructions.md  # Canonical instruction
 │   ├── logs/                   # Execution logs
 │   └── scripts/                # Logging scripts
 └── .claude/
@@ -241,7 +241,7 @@ code-agent-workspace/
 **Wrong:**
 ```bash
 # Writing instruction directly to code agent
-echo "..." > [CODE_AGENT]/debugging/instructions/current_instruction.md
+echo "..." > [CODE_AGENT]/debugging/instructions/current_instructions.md
 ```
 
 **Correct:**

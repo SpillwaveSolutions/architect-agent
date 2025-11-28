@@ -48,12 +48,12 @@ This template ensures architect agents create complete, well-structured instruct
 
 ### 4. Ultrathink Canonical Filename Protocol
 
-**IMPORTANT:** Code agent workspace uses canonical filename `current_instruction.md` for active work.
+**IMPORTANT:** Code agent workspace uses canonical filename `current_instructions.md` for active work.
 
 **Architect Workflow:**
 1. Create instruction in architect workspace with timestamp: `instructions/instruct-2025_11_14-14_30-description.md`
 2. Activate for code agent: `./scripts/activate-instruction.sh <file> <code-workspace>`
-3. Instruction copied to code workspace as `debugging/instructions/current_instruction.md`
+3. Instruction copied to code workspace as `debugging/instructions/current_instructions.md`
 4. After completion, code agent archives as `archive/instruct-2025_11_14-14_30-completed.md`
 
 **Benefits:**

@@ -605,10 +605,10 @@ echo "📍 Location: $CODE_WORKSPACE/debugging/instructions/$FILENAME"
 
 ### The Protocol
 
-**Core Principle:** Only ONE active instruction exists at any time: `debugging/instructions/current_instruction.md`
+**Core Principle:** Only ONE active instruction exists at any time: `debugging/instructions/current_instructions.md`
 
 **Lifecycle States:**
-1. **Active** - `current_instruction.md` exists (code agent is working on it)
+1. **Active** - `current_instructions.md` exists (code agent is working on it)
 2. **Queued** - Listed in `QUEUE.md` but not yet activated
 3. **Completed** - Archived as `archive/instruct-{TIMESTAMP}-completed.md`
 
@@ -616,11 +616,11 @@ echo "📍 Location: $CODE_WORKSPACE/debugging/instructions/$FILENAME"
 
 ```
 debugging/instructions/
-├── current_instruction.md       # ← ONLY active instruction (or absent if no work)
+├── current_instructions.md       # ← ONLY active instruction (or absent if no work)
 ├── QUEUE.md                      # ← Lifecycle tracker (Active/Queued/Completed)
 └── archive/
-    ├── instruct-2025_11_13-15_30-platsd4466_phase1-completed.md
-    └── instruct-2025_11_14-09_00-platsd4466_phase2-completed.md
+    ├── instruct-2025_11_13-15_30-proj123_phase1-completed.md
+    └── instruct-2025_11_14-09_00-proj123_phase2-completed.md
 ```
 
 ### QUEUE.md Format
@@ -631,8 +631,8 @@ debugging/instructions/
 **Last Updated:** 2025-11-14 14:30
 
 ## Active (Currently Working)
-- [ACTIVE] 2025-11-13 15:30 - PLATSD-4466/4470 Phase 1: Dependencies & Type Hints
-  - File: `current_instruction.md`
+- [ACTIVE] 2025-11-13 15:30 - PROJ-123/124 Phase 1: Dependencies & Type Hints
+  - File: `current_instructions.md`
   - Started: 2025-11-13 15:30
   - Status: In progress
 
@@ -641,8 +641,8 @@ debugging/instructions/
 - [QUEUED] Phase 3: Testing
 
 ## Completed (Archived)
-- [COMPLETE] 2025-11-13 15:30 - PLATSD-4466/4470 Phase 1
-  - Archived: `archive/instruct-2025_11_13-15_30-platsd4466_phase1-completed.md`
+- [COMPLETE] 2025-11-13 15:30 - PROJ-123/124 Phase 1
+  - Archived: `archive/instruct-2025_11_13-15_30-proj123_phase1-completed.md`
   - Completed: 2025-11-13 18:00
   - Grade: A+ (98/100)
 ```
@@ -672,9 +672,9 @@ if [ ! -f "$INSTRUCTION_FILE" ]; then
 fi
 
 # Check if there's already an active instruction
-if [ -f "$CODE_WORKSPACE/debugging/instructions/current_instruction.md" ]; then
+if [ -f "$CODE_WORKSPACE/debugging/instructions/current_instructions.md" ]; then
     echo "⚠️  WARNING: Active instruction already exists!"
-    echo "Current: $CODE_WORKSPACE/debugging/instructions/current_instruction.md"
+    echo "Current: $CODE_WORKSPACE/debugging/instructions/current_instructions.md"
     echo ""
     read -p "Archive current instruction and activate new one? (y/n) " -n 1 -r
     echo
@@ -687,8 +687,8 @@ fi
 mkdir -p "$CODE_WORKSPACE/debugging/instructions"
 mkdir -p "$CODE_WORKSPACE/debugging/instructions/archive"
 
-# Copy instruction as current_instruction.md
-cp "$INSTRUCTION_FILE" "$CODE_WORKSPACE/debugging/instructions/current_instruction.md"
+# Copy instruction as current_instructions.md
+cp "$INSTRUCTION_FILE" "$CODE_WORKSPACE/debugging/instructions/current_instructions.md"
 
 # Extract instruction metadata
 TITLE=$(grep "^# INSTRUCT:" "$INSTRUCTION_FILE" | sed 's/# INSTRUCT: //')
@@ -704,7 +704,7 @@ if [ ! -f "$QUEUE_FILE" ]; then
 
 ## Active (Currently Working)
 - [ACTIVE] $DATE - $TITLE
-  - File: \`current_instruction.md\`
+  - File: \`current_instructions.md\`
   - Started: $(date +%Y-%m-%d\ %H:%M)
   - Status: Ready for execution
 
@@ -721,7 +721,7 @@ else
 fi
 
 echo "✅ Instruction activated!"
-echo "📍 Location: $CODE_WORKSPACE/debugging/instructions/current_instruction.md"
+echo "📍 Location: $CODE_WORKSPACE/debugging/instructions/current_instructions.md"
 echo "📋 Title: $TITLE"
 echo "📅 Date: $DATE"
 echo ""
@@ -748,7 +748,7 @@ echo "Code agent will detect this automatically on next session start."
 # Check if there's an active instruction to execute
 set -e
 
-INSTRUCTION_FILE="debugging/instructions/current_instruction.md"
+INSTRUCTION_FILE="debugging/instructions/current_instructions.md"
 
 if [ -f "$INSTRUCTION_FILE" ]; then
     echo "✅ Active instruction found!"
@@ -764,7 +764,7 @@ if [ -f "$INSTRUCTION_FILE" ]; then
     echo "⚡ Priority: $PRIORITY"
     echo ""
     echo "To view full instruction:"
-    echo "  cat debugging/instructions/current_instruction.md"
+    echo "  cat debugging/instructions/current_instructions.md"
     echo ""
     echo "Ready to execute this instruction?"
 
@@ -802,7 +802,7 @@ fi
 # Complete current instruction and archive it
 set -e
 
-INSTRUCTION_FILE="debugging/instructions/current_instruction.md"
+INSTRUCTION_FILE="debugging/instructions/current_instructions.md"
 
 if [ ! -f "$INSTRUCTION_FILE" ]; then
     echo "Error: No active instruction found"
@@ -889,7 +889,7 @@ STATUS: ready-for-grading
 TIMESTAMP: $TIMESTAMP
 LOG_FILE: $LOG_FILE
 MESSAGE: Work completed, awaiting grade
-INSTRUCTION: $([ -f debugging/instructions/current_instruction.md ] && echo "current_instruction.md" || echo "archived")
+INSTRUCTION: $([ -f debugging/instructions/current_instructions.md ] && echo "current_instructions.md" || echo "archived")
 EOF
         echo "✅ Status: Ready for grading"
         ;;
@@ -902,7 +902,7 @@ TIMESTAMP: $TIMESTAMP
 LOG_FILE: $LOG_FILE
 PROGRESS: ${PROGRESS}%
 MESSAGE: ${MESSAGE:-Working on implementation}
-INSTRUCTION: current_instruction.md
+INSTRUCTION: current_instructions.md
 EOF
         echo "🔄 Status: In progress (${PROGRESS}%)"
         ;;
@@ -913,7 +913,7 @@ STATUS: blocked
 TIMESTAMP: $TIMESTAMP
 LOG_FILE: $LOG_FILE
 BLOCKER: ${MESSAGE:-Unknown blocker}
-INSTRUCTION: current_instruction.md
+INSTRUCTION: current_instructions.md
 NEEDS_HELP: yes
 EOF
         echo "🚫 Status: Blocked - ${MESSAGE}"
@@ -926,7 +926,7 @@ STATUS: improvements-done
 TIMESTAMP: $TIMESTAMP
 LOG_FILE: $LOG_FILE
 MESSAGE: Improvements based on grade completed
-INSTRUCTION: current_instruction.md
+INSTRUCTION: current_instructions.md
 READY_FOR_REGRADING: yes
 EOF
         echo "✅ Status: Improvements complete, ready for re-grading"
@@ -999,7 +999,7 @@ if [ -z "$CODE_WORKSPACE" ]; then
 fi
 
 STATUS_FILE="$CODE_WORKSPACE/debugging/status.txt"
-INSTRUCTION_FILE="$CODE_WORKSPACE/debugging/instructions/current_instruction.md"
+INSTRUCTION_FILE="$CODE_WORKSPACE/debugging/instructions/current_instructions.md"
 QUEUE_FILE="$CODE_WORKSPACE/debugging/instructions/QUEUE.md"
 
 echo "🔍 Code Agent Status Check"
@@ -1068,7 +1068,7 @@ echo "========================================"
 ```
 
 **If active instruction found:**
-1. Read it: `cat debugging/instructions/current_instruction.md`
+1. Read it: `cat debugging/instructions/current_instructions.md`
 2. Start logging session: `./debugging/scripts/start-log.sh log_$(date +%Y_%m_%d-%H_%M)-description.md`
 3. Execute the instruction following ALL protocols
 4. Signal completion: `./debugging/scripts/complete-instruction.sh`
@@ -1087,7 +1087,7 @@ echo "========================================"
     instructions/instruct-2025_11_14-14_30-phase2.md \
     ~/clients/peak6/src/peak6-contactmanager-2
 
-# Result: Instruction copied as current_instruction.md
+# Result: Instruction copied as current_instructions.md
 ```
 
 **Code Agent Session Start:**
@@ -1096,7 +1096,7 @@ echo "========================================"
 ./debugging/scripts/check-instruction.sh
 
 # 2. If found, read it
-cat debugging/instructions/current_instruction.md
+cat debugging/instructions/current_instructions.md
 
 # 3. Start work
 ./debugging/scripts/start-log.sh log_$(date +%Y_%m_%d-%H_%M)-phase2.md
@@ -1122,7 +1122,7 @@ cat debugging/instructions/current_instruction.md
 
 ### Benefits of Ultrathink Protocol
 
-1. **Zero Ambiguity** - Only ONE active instruction file (`current_instruction.md`)
+1. **Zero Ambiguity** - Only ONE active instruction file (`current_instructions.md`)
 2. **Clean Workspace** - No accumulation of timestamped files
 3. **Clear Lifecycle** - QUEUE.md tracks Active → Queued → Completed
 4. **Proactive Detection** - Code agent checks for work on session start

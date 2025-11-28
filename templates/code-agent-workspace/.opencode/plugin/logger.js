@@ -12,8 +12,6 @@ import { readFileSync, appendFileSync, existsSync } from "fs"
 import { join } from "path"
 
 export const LoggerPlugin = async ({ project, client, $, directory, worktree }) => {
-  console.error("🔌 LoggerPlugin: INITIALIZING (SPEC.md v4.1 Compliant)...")
-  console.error("📂 Directory:", directory)
 
   // Configuration (environment variables or defaults)
   const config = {
@@ -24,7 +22,6 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
     enableTodos: true, // Track task progression
   }
 
-  console.error("⚙️  Config:", JSON.stringify(config))
 
   // ===== HELPER FUNCTIONS =====
 
@@ -44,7 +41,6 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
     try {
       appendFileSync(logFile, content + "\n", "utf-8")
     } catch (error) {
-      console.error("❌ Log write failed:", error.message)
     }
   }
 
@@ -53,23 +49,58 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
     return now.toTimeString().split(" ")[0] // HH:MM:SS (SPEC.md Section 2.5 format for log entries)
   }
 
-  const formatParams = (args) => {
-    if (!args || Object.keys(args).length === 0) return "PARAMS: (none)"
-    const params = Object.entries(args)
-      .map(([key, value]) => {
-        const strValue = typeof value === "string"
-          ? (value.length > 100 ? value.substring(0, 100) + "..." : value)
-          : JSON.stringify(value)
-        return `${key}="${strValue}"`
-      })
-      .join(", ")
-    return `PARAMS: ${params}`
-  }
-
   const truncate = (str, maxLen = 200) => {
     if (!str) return ""
     const s = String(str)
     return s.length > maxLen ? s.substring(0, maxLen) + "..." : s
+  }
+
+  // Convert absolute path to relative path from project root
+  const toRelativePath = (absolutePath) => {
+    if (!absolutePath) return ""
+    const path = String(absolutePath)
+    if (path.startsWith(directory)) {
+      return path.substring(directory.length + 1) // +1 for trailing slash
+    }
+    return path
+  }
+
+  // Format bash command - split by && and display as code block
+  const formatBashCommand = (command) => {
+    if (!command) return "```bash\n(no command)\n```"
+    const parts = command.split(" && ").map(p => p.trim())
+    return "```bash\n" + parts.join(" && \\\n  ") + "\n```"
+  }
+
+  // Format params with special handling for different tools
+  const formatParamsEnhanced = (toolName, args) => {
+    if (!args || Object.keys(args).length === 0) return "PARAMS: (none)"
+
+    const lines = []
+
+    for (const [key, value] of Object.entries(args)) {
+      if (toolName === "bash" && key === "command") {
+        // Special handling for bash commands - show in code block
+        lines.push(`COMMAND:\n${formatBashCommand(value)}`)
+      } else if (key === "description" && toolName === "bash") {
+        // Show description first for bash
+        lines.unshift(`DESCRIPTION: ${value}`)
+      } else if (key === "filePath" || key === "file_path" || key === "path") {
+        // Convert file paths to relative
+        lines.push(`${key.toUpperCase()}: ${toRelativePath(value)}`)
+      } else if (typeof value === "string") {
+        // Other string params - show full value up to 500 chars
+        const displayValue = value.length > 500 ? value.substring(0, 500) + "..." : value
+        lines.push(`${key.toUpperCase()}: ${displayValue}`)
+      } else {
+        // Non-string params
+        const strValue = JSON.stringify(value)
+        const displayValue = strValue.length > 200 ? strValue.substring(0, 200) + "..." : strValue
+        lines.push(`${key.toUpperCase()}: ${displayValue}`)
+      }
+    }
+
+    return lines.join("\n")
   }
 
   // ===== EVENT FORMATTERS =====
@@ -163,6 +194,13 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
     return `---\n[${timestamp}] TODO: ${action}\nTASK: ${task}${remaining}\n---`
   }
 
+  const formatUnknown = (event) => {
+    const timestamp = getTimestamp()
+    const action = event.action || "updated"
+    return `---\n[${timestamp}] UNKNOWN: ${action}\n---`
+  }
+
+
   // ===== SHOULD LOG FUNCTION =====
 
   const shouldLogEvent = (eventType) => {
@@ -185,25 +223,20 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
     return config.logLevel === 'VERBOSE'
   }
 
-  console.error("✅ LoggerPlugin: Initialized with 13 event handlers (SPEC.md v4.1 compliant)")
-  console.error("📍 Active log:", getCurrentLogFile() ? "FOUND" : "NOT FOUND")
-  console.error("📝 File naming: log-YYYY_MM_DD-HH_MM-description.md (SPEC.md Section 2.5)")
 
   // ===== RETURN PLUGIN HOOKS =====
 
   return {
     // ===== TOOL HOOKS =====
     "tool.execute.before": async (input, output) => {
-      console.error("🔧 HOOK: tool.execute.before →", input.tool)
       const timestamp = getTimestamp()
       const toolName = input.tool || "unknown"
-      const params = formatParams(output.args)
+      const params = formatParamsEnhanced(toolName, output.args)
       const logEntry = `---\n[${timestamp}] TOOL: ${toolName}\n${params}`
       writeLog(logEntry)
     },
 
     "tool.execute.after": async (input, output) => {
-      console.error("🔧 HOOK: tool.execute.after →", input.tool)
       const timestamp = getTimestamp()
       const success = !output.error
       const status = success ? "✅ Success" : "❌ Error"
@@ -228,7 +261,6 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
     event: async ({ event }) => {
       if (!shouldLogEvent(event.type)) return
 
-      console.error("📡 EVENT:", event.type)
 
       let logEntry = ""
 
@@ -301,8 +333,7 @@ export const LoggerPlugin = async ({ project, client, $, directory, worktree }) 
 
         default:
           // Unknown event type - log for debugging
-          console.error("⚠️  Unknown event type:", event.type)
-          return
+          break
       }
 
       if (logEntry) {

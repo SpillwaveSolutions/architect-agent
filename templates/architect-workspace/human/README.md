@@ -10,7 +10,7 @@ human-YYYYMMDD_HHMMSS-brief_description.md
 
 **Must match corresponding instruction file timestamp.**
 
-**Example:** `human-20251120_143045-implement_alloydb_migration.md`
+**Example:** `human-20251120_143045-implement_api_refactor.md`
 
 ## Summary Format
 

@@ -111,13 +111,13 @@ EOF
 
 # Send to code agent
 cp instructions/instruct-test.md \
-   ~/projects/my-code-agent/debugging/instructions/current_instruction.md
+   ~/projects/my-code-agent/debugging/instructions/current_instructions.md
 ```
 
 **Execute in code agent:**
 ```bash
 cd ~/projects/my-code-agent
-claude -p "Read debugging/instructions/current_instruction.md and execute"
+claude -p "Read debugging/instructions/current_instructions.md and execute"
 ```
 
 **Verify hooks captured:**
@@ -255,7 +255,7 @@ vim human/human-$(date +%Y%m%d_%H%M%S)-description.md
 - `.claude/settings.json` - **Hook configuration (CRITICAL!)**
 - `.claude/hook-logger.py` - Hook logger script
 - `debugging/logs/` - Session log files
-- `debugging/instructions/current_instruction.md` - Current instructions
+- `debugging/instructions/current_instructions.md` - Current instructions
 
 ### Architect
 

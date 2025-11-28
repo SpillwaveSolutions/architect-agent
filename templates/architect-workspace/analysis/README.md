@@ -17,7 +17,7 @@ analysis-YYYYMMDD_HHMMSS-brief_description.md
 ```
 
 **Examples:**
-- `analysis-20251120_143045-alloydb_migration_options.md`
+- `analysis-20251120_143045-database_migration_options.md`
 - `analysis-20251120_150000-vpc_connector_drift_root_cause.md`
 - `analysis-20251120_160000-testing_strategy_comparison.md`
 
@@ -63,6 +63,6 @@ Analysis documents often lead to or inform instruction files. Reference analysis
 ```markdown
 ## Context
 
-Based on analysis in `analysis/analysis-20251120_143045-alloydb_migration_options.md`,
+Based on analysis in `analysis/analysis-20251120_143045-database_migration_options.md`,
 we selected Option 2 (Pulumi + Terraform) due to...
 ```

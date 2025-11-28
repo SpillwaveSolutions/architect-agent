@@ -8,7 +8,7 @@ This directory contains instruction files created by the architect agent for del
 instruct-YYYYMMDD_HHMMSS-brief_description.md
 ```
 
-**Example:** `instruct-20251120_143045-implement_alloydb_migration.md`
+**Example:** `instruct-20251120_143045-implement_api_refactor.md`
 
 ## Instruction File Structure
 
@@ -26,8 +26,8 @@ Each instruction file should include:
 ## Workflow
 
 1. Architect creates instruction file HERE in this directory
-2. When ready to send, architect copies to code agent's `debugging/instructions/current_instruction.md`
-3. Code agent reads from `current_instruction.md` and executes
+2. When ready to send, architect copies to code agent's `debugging/instructions/current_instructions.md`
+3. Code agent reads from `current_instructions.md` and executes
 4. Instruction file remains here for record-keeping
 
 ## See Also

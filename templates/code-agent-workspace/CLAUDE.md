@@ -22,14 +22,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Check for current instruction file
-cat debugging/instructions/current_instruction.md
+cat debugging/instructions/current_instructions.md
 ```
 
 **If file exists:** Follow the instructions completely before doing anything else.
 
 **If file doesn't exist:** Proceed with user's direct request.
 
-**Instruction Location:** `debugging/instructions/current_instruction.md` (canonical filename)
+**Instruction Location:** `debugging/instructions/current_instructions.md` (canonical filename)
 
 ---
 

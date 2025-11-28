@@ -198,7 +198,7 @@ gcloud run services describe ingestion --region=us-central1 --format='yaml(spec.
 echo '```' | tee -a "$LOG_FILE"
 echo "**Finding:** Working services have NO VPC connector" | tee -a "$LOG_FILE"
 echo "**Decision:** Remove VPC connector from job to match working pattern" | tee -a "$LOG_FILE"
-echo "**Rationale:** Working services prove VPC connector unnecessary for AlloyDB access" | tee -a "$LOG_FILE"
+echo "**Rationale:** Working services prove VPC connector unnecessary for database access" | tee -a "$LOG_FILE"
 echo "" | tee -a "$LOG_FILE"
 ```
 
