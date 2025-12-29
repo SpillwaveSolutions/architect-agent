@@ -6,26 +6,48 @@ Transform Claude Code (or any AI coding assistant) into a specialized **architec
 
 ## What This Skill Does
 
-**Plan → Delegate → Grade → Iterate → Learn**
+**Plan -> Delegate -> Grade -> Iterate -> Learn**
 
 1. **Plan**: Create detailed, structured instructions for code agents
 2. **Delegate**: Send instructions to code agents for implementation
-3. **Grade**: Evaluate completed work against objective rubrics (target: ≥95%)
+3. **Grade**: Evaluate completed work against objective rubrics (target: 95% or higher)
 4. **Iterate**: Guide improvements until quality threshold met
 5. **Learn**: Update code agent memory with successful patterns
 
 ---
 
+## Installation
+
+### Skilz Universal Installer (Recommended)
+
+Install instantly using the [skilz CLI](https://github.com/AgenDev-FX/skilz):
+
+```bash
+skilz install SpillwaveSolutions_architect-agent/architect-agent
+```
+
+**Marketplace:** [SpillwaveSolutions_architect-agent/architect-agent](https://skillzwave.ai/skill/SpillwaveSolutions__architect-agent__architect-agent__SKILL/)
+
+### Manual Installation
+
+Clone directly into your Claude Code skills directory:
+
+```bash
+git clone https://github.com/SpillwaveSolutions/architect-agent.git ~/.claude/skills/architect-agent
+```
+
+---
+
 ## Key Features
 
-✅ **Objective Grading** - 6-category rubric (100 points total)
-✅ **Iterative Improvement** - Repeat until ≥95% quality achieved
-✅ **Memory Management** - Code agents learn from successes and failures
-✅ **Progressive Disclosure** - 3-level architecture minimizes context usage
-✅ **Cross-Workspace Collaboration** - Architect ↔ code agent workflows
-✅ **Template Automation** - Setup workspaces in <5 minutes
-✅ **Dual-Mode Logging** - Works with Claude Code and OpenCode
-✅ **Comprehensive Protocols** - 29 reference files covering all scenarios
+- **Objective Grading** - 6-category rubric (100 points total)
+- **Iterative Improvement** - Repeat until 95% or higher quality achieved
+- **Memory Management** - Code agents learn from successes and failures
+- **Progressive Disclosure** - 3-level architecture minimizes context usage
+- **Cross-Workspace Collaboration** - Architect to code agent workflows
+- **Template Automation** - Setup workspaces in less than 5 minutes
+- **Dual-Mode Logging** - Works with Claude Code and OpenCode
+- **Comprehensive Protocols** - 29 reference files covering all scenarios
 
 ---
 
@@ -49,7 +71,7 @@ cd ~/projects/my-code-agent
 ~/projects/my-architect/verify-workspace.sh
 ```
 
-**Complete in <5 minutes!** See [references/installation.md](references/installation.md) for details.
+**Complete in less than 5 minutes!** See [references/installation.md](references/installation.md) for details.
 
 ### Option 2: Manual Setup
 
@@ -68,35 +90,35 @@ Use skill triggers for step-by-step guidance:
 User: "write instructions for implementing JWT authentication"
 
 Architect Agent:
-  → Creates human-readable summary (human/*.md)
-  → Creates detailed technical instructions (instructions/*.md)
-  → Includes logging requirements, testing protocol, success criteria
+  -> Creates human-readable summary (human/*.md)
+  -> Creates detailed technical instructions (instructions/*.md)
+  -> Includes logging requirements, testing protocol, success criteria
 ```
 
-### 2. Delegation & Execution
+### 2. Delegation and Execution
 
 ```
 Architect: "send instructions to code agent"
-  → Copies to code-agent/debugging/instructions/<uuid>.md
-  → Generates 10-point summary
+  -> Copies to code-agent/debugging/instructions/<uuid>.md
+  -> Generates 10-point summary
 
 Code Agent: "run instructions"
-  → Implements features
-  → Creates detailed logs
-  → Signals: "instructions completed, ready for grading"
+  -> Implements features
+  -> Creates detailed logs
+  -> Signals: "instructions completed, ready for grading"
 ```
 
-### 3. Grading & Iteration
+### 3. Grading and Iteration
 
 ```
 Architect: "grade the work"
-  → Evaluates against rubric
-  → If ≥95%: Success! Files deleted
-  → If <95%: Creates improvement instruction
+  -> Evaluates against rubric
+  -> If 95% or higher: Success! Files deleted
+  -> If less than 95%: Creates improvement instruction
 
 Code Agent: "improve your score" (if needed)
-  → Implements targeted fixes
-  → Repeat until ≥95%
+  -> Implements targeted fixes
+  -> Repeat until 95% or higher
 ```
 
 ---
@@ -109,7 +131,7 @@ Code Agent: "improve your score" (if needed)
 - Always in context
 - Skill name, description, triggers
 
-**Level 2: SKILL.md** (<5k words)
+**Level 2: SKILL.md** (less than 5k words)
 - Core workflows and protocols
 - Quick reference checklists
 - Links to detailed references
@@ -126,11 +148,11 @@ Architect Workspace           Code Agent Workspace
 (YOU work here)                (THEY work there)
 ===================           ====================
 instructions/                 src/
-  instruct-*.md ← YOU          code files ← THEY
+  instruct-*.md <- YOU          code files <- THEY
 human/                        tests/
-  human-*.md ← YOU             test files ← THEY
+  human-*.md <- YOU             test files <- THEY
 grades/                       debugging/
-  grade-*.md ← YOU               logs/ ← THEY
+  grade-*.md <- YOU               logs/ <- THEY
 ticket/                          instructions/ (temporary)
 analysis/                     CLAUDE.md (memory)
 CLAUDE.md                     AGENTS.md (protocols)
@@ -149,7 +171,7 @@ CLAUDE.md                     AGENTS.md (protocols)
 
 ### Quick Links
 
-**Setup & Installation:**
+**Setup and Installation:**
 - [references/installation.md](references/installation.md) - Complete installation guide
 - [references/upgrade.md](references/upgrade.md) - Migration from v1.0/v2.0 to v3.0+
 - [references/quick_start.md](references/quick_start.md) - 5-minute getting started
@@ -176,17 +198,17 @@ CLAUDE.md                     AGENTS.md (protocols)
 |----------|--------|--------------|
 | Completeness | 25 | All requirements met, success criteria checked |
 | Code Quality | 20 | Best practices, maintainability, correctness |
-| Testing & Verification | 20 | Coverage ≥60%, all actions verified |
+| Testing and Verification | 20 | Coverage 60% or higher, all actions verified |
 | Documentation | 15 | Complete logs, change docs, inline comments |
-| Resilience & Adaptability | 10 | Recovery from errors, smart workarounds |
-| Logging & Traceability | 10 | Real-time logs, timestamps, clear decisions |
+| Resilience and Adaptability | 10 | Recovery from errors, smart workarounds |
+| Logging and Traceability | 10 | Real-time logs, timestamps, clear decisions |
 
-**Target: ≥95 points for successful completion**
+**Target: 95 points or higher for successful completion**
 
 **Automatic Grade Caps:**
 - No unit tests run: Max D (65%)
 - Tests fail: F (50%) - UNACCEPTABLE
-- Coverage <60%: Max C- (70%)
+- Coverage less than 60%: Max C- (70%)
 
 ---
 
@@ -212,7 +234,7 @@ CLAUDE.md                     AGENTS.md (protocols)
 
 ---
 
-## Support & Community
+## Support and Community
 
 **Documentation:**
 - Browse [references/](references/) for detailed protocols
@@ -232,5 +254,5 @@ MIT License - Modify and adapt for your workflow and team needs.
 
 ---
 
-**Last Updated:** 2025-01-21
+**Last Updated:** 2025-12-29
 **Version:** 4.0
