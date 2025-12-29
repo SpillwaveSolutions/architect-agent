@@ -1,5 +1,10 @@
 # Architect Agent Skill
 
+[![Agent Skill Standard](https://img.shields.io/badge/Agent%20Skill-Standard-blue)](https://agentskills.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Claude Code](https://img.shields.io/badge/Claude-Code-5A67D8)](https://claude.ai/code)
+[![SkillzWave Marketplace](https://img.shields.io/badge/SkillzWave-Marketplace-00C7B7)](https://skillzwave.ai/skill/SpillwaveSolutions__architect-agent__architect-agent__SKILL/)
+
 Transform Claude Code (or any AI coding assistant) into a specialized **architect agent** that plans, delegates work to code agents, grades implementations, and maintains quality through iterative improvement.
 
 ---
@@ -20,13 +25,104 @@ Transform Claude Code (or any AI coding assistant) into a specialized **architec
 
 ### Skilz Universal Installer (Recommended)
 
-Install instantly using the [skilz CLI](https://github.com/AgenDev-FX/skilz):
+The recommended way to install this skill across different AI coding agents is using the **skilz** universal installer. This skill supports the [Agent Skill Standard](https://agentskills.io/), which means it works with 14+ coding agents including Claude Code, OpenAI Codex, Cursor, and Gemini.
+
+#### Install Skilz
 
 ```bash
-skilz install SpillwaveSolutions_architect-agent/architect-agent
+pip install skilz
 ```
 
-**Marketplace:** [SpillwaveSolutions_architect-agent/architect-agent](https://skillzwave.ai/skill/SpillwaveSolutions__architect-agent__architect-agent__SKILL/)
+#### Git URL Options
+
+You can use either `-g` or `--git` with HTTPS or SSH URLs:
+
+```bash
+# HTTPS URL
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent
+
+# SSH URL
+skilz install --git git@github.com:SpillwaveSolutions/architect-agent.git
+```
+
+#### Claude Code
+
+Install to user home (available in all projects):
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent
+```
+
+Install to current project only:
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent --project
+```
+
+#### OpenCode
+
+Install for [OpenCode](https://opencode.ai):
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent --agent opencode
+```
+
+Project-level install:
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent --project --agent opencode
+```
+
+#### Gemini
+
+Project-level install for Gemini:
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent --agent gemini
+```
+
+#### OpenAI Codex
+
+Install for OpenAI Codex:
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent --agent codex
+```
+
+Project-level install:
+```bash
+skilz install -g https://github.com/SpillwaveSolutions/architect-agent --project --agent codex
+```
+
+#### Install from SkillzWave Marketplace
+
+```bash
+# Claude to user home dir ~/.claude/skills
+skilz install SpillwaveSolutions_architect-agent/architect-agent
+
+# Claude skill in project folder ./claude/skills
+skilz install SpillwaveSolutions_architect-agent/architect-agent --project
+
+# OpenCode install to user home dir ~/.config/opencode/skills
+skilz install SpillwaveSolutions_architect-agent/architect-agent --agent opencode
+
+# OpenCode project level
+skilz install SpillwaveSolutions_architect-agent/architect-agent --agent opencode --project
+
+# OpenAI Codex install to user home dir ~/.codex/skills
+skilz install SpillwaveSolutions_architect-agent/architect-agent --agent codex
+
+# OpenAI Codex project level ./.codex/skills
+skilz install SpillwaveSolutions_architect-agent/architect-agent --agent codex --project
+
+# Gemini CLI (project level) -- only works with project level
+skilz install SpillwaveSolutions_architect-agent/architect-agent --agent gemini
+```
+
+See [skill Listing](https://skillzwave.ai/skill/SpillwaveSolutions__architect-agent__architect-agent__SKILL/) for installation details for 14+ different coding agents.
+
+#### Other Supported Agents
+
+Skilz supports 14+ coding agents including Windsurf, Qwen Code, Aidr, and more. For the full list of supported platforms, visit:
+
+- [SkillzWave Platforms](https://skillzwave.ai/platforms/)
+- [skilz-cli GitHub Repository](https://github.com/SpillwaveSolutions/skilz-cli)
+
+[SkillzWave - Largest Agentic Marketplace for AI Agent Skills](https://skillzwave.ai/) | [SpillWave - Leaders in AI Agent Development](https://spillwave.com/)
 
 ### Manual Installation
 
