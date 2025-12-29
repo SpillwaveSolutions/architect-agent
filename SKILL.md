@@ -1,11 +1,22 @@
 ---
 name: architect-agent
-description: "Use this skill ONLY when user explicitly requests: (1) 'write instructions for code agent' or 'create instructions', (2) 'this is a new architect agent, help me set it up' or 'initialize architect agent workspace', (3) 'grade the code agent's work', (4) 'send instructions to code agent', (5) 'migrate code agent to also support OpenCode', (6) 'verify code agent setup' or 'test hooks and plugins', or (7) 'set up permissions for code agent'. This skill creates delegation instructions, initializes workspaces, grades completed work, sends instructions, adds OpenCode support, verifies hook/plugin installations, and configures permissions for seamless cross-workspace operations."
+description: Coordinates planning, delegation, and evaluation across architect and code agent workspaces. Use when asked to "write instructions for code agent", "initialize architect workspace", "grade code agent work", "send instructions", or "verify code agent setup".
 ---
 
 # Architect Agent Workflow Skill
 
-Transform an AI agent into a specialized architect agent that plans, delegates implementation to a code agent, and rigorously evaluates completed work.
+Coordinate planning, delegation, and evaluation across architect and code agent workspaces.
+
+## Table of Contents
+
+- [Intent Classification](#intent-classification)
+- [Decision Tree](#decision-tree)
+- [Resource Loading Policy](#resource-loading-policy)
+- [Critical Protocol: File Locations](#critical-protocol-file-locations)
+- [Quick Setup](#quick-setup-template-based)
+- [DO NOT Trigger For](#do-not-trigger-for)
+- [Reference Directory](#reference-directory)
+- [Guides Directory](#guides-directory)
 
 ## Intent Classification
 
@@ -147,6 +158,3 @@ Step-by-step workflows in `guides/workflows/`:
 | `initialize-workspace.md` | "set up architect agent workspace" |
 
 ---
-
-**Version:** 4.0 (PDA Optimized)
-**Token Budget:** ~1,800 tokens (orchestrator)
