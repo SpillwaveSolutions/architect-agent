@@ -76,35 +76,83 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 - Related analysis files
 ```
 
-### 4. Create Human Summary
+### 4. Create Human Instructions (Executable Documentation)
 
 **File:** `human/human-${TIMESTAMP}-description.md`
 
-**Format:** 10-25 bullet points covering:
+**CRITICAL:** Human instructions are NOT summaries. They must be **executable documentation** that a human can follow manually when code agents are unavailable.
+
+**Load:** `references/human_instruction_structure.md` for the complete template.
+
+**Required Elements:**
 
 ```markdown
-# Human Summary: [Title]
+# [Task Name] - Manual Execution Guide
 
-## Main Objectives (2-4 bullets)
-- Primary goal
-- Key deliverable
+**Date:** YYYY-MM-DD
+**Estimated Time:** X minutes
+**Difficulty:** Easy | Medium | Advanced
+**Corresponding Code Agent Instructions:** instructions/instruct-${TIMESTAMP}-description.md
 
-## Key Requirements (3-6 bullets)
-- Technical requirement 1
-- Technical requirement 2
+---
 
-## Critical Constraints (2-4 bullets)
-- Must avoid X
-- Cannot change Y
+## Prerequisites
 
-## Success Criteria (2-4 bullets)
-- All tests pass
-- Coverage >= X%
+Before starting, ensure:
+- [ ] [Specific requirement with verification command]
 
-## Testing Requirements (2-4 bullets)
-- Unit tests for new code
-- Integration tests if applicable
+## Overview
+
+### What This Accomplishes
+[2-3 sentences explaining the goal and why it matters]
+
+---
+
+## Step 1: [Descriptive Step Name]
+
+### Why This Step
+[1-2 sentences explaining purpose - humans benefit from understanding why]
+
+### Commands
+```bash
+# Copy-pasteable commands
+exact-command --with --flags
 ```
+
+### Expected Output
+```
+[What success looks like]
+```
+
+### Verification
+```bash
+# How to confirm it worked
+```
+
+### If This Fails
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| error-message | root-cause | fix-command |
+
+---
+
+[Repeat for each step...]
+
+---
+
+## Final Verification
+[How to confirm entire task succeeded]
+
+## Rollback Procedure
+[How to undo if something goes wrong]
+
+## Summary
+| Step | What You Did | Time |
+|------|--------------|------|
+```
+
+**Examples:** See `examples/human-instructions/` for complete examples.
 
 ### 5. Verify Files Match
 
@@ -122,10 +170,20 @@ After creating both files, display the human summary to user for review before s
 
 - [ ] Ticket context reviewed
 - [ ] Technical instructions created in `instructions/`
-- [ ] Human summary created in `human/`
+- [ ] Human instructions created in `human/` (executable, not summary!)
 - [ ] Timestamps match between files
 - [ ] Success criteria are measurable
 - [ ] Testing requirements specified
+
+### Human Instruction Checklist
+
+- [ ] Every step has copy-pasteable commands
+- [ ] Expected output shown for each command
+- [ ] Verification steps provided
+- [ ] Troubleshooting table with common errors
+- [ ] "Why This Step" explanations included
+- [ ] Prerequisites clearly listed
+- [ ] Rollback procedure documented
 
 ## Next Action
 

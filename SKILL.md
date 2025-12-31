@@ -82,7 +82,7 @@ USER REQUEST
 
 | Intent | Primary Resource | Supporting Resources |
 |--------|-----------------|---------------------|
-| Create Instructions | `guides/workflows/create-instructions.md` | `references/instruction_structure.md`, `references/file_naming.md` |
+| Create Instructions | `guides/workflows/create-instructions.md` | `references/instruction_structure.md`, `references/human_instruction_structure.md`, `references/file_naming.md` |
 | Initialize Workspace | `guides/workflows/initialize-workspace.md` | `references/workspace_setup_complete.md` |
 | Grade Work | `guides/workflows/grade-work.md` | `references/grading_rubrics.md`, `references/decision_types.md` |
 | Send Instructions | `guides/workflows/send-instructions.md` | (none - simple bash copy) |
@@ -97,9 +97,13 @@ USER REQUEST
 | What | Where YOU Write | Where Code Agent Works |
 |------|----------------|----------------------|
 | Instructions | `YOUR_WORKSPACE/instructions/` | Reads from `debugging/instructions/` |
-| Human Summaries | `YOUR_WORKSPACE/human/` | N/A |
+| Human Instructions | `YOUR_WORKSPACE/human/` | N/A (for manual execution) |
 | Grades | `YOUR_WORKSPACE/grades/` | N/A |
 | Logs | N/A | Writes to `THEIR_WORKSPACE/debugging/logs/` |
+
+**Human Instructions = Executable Documentation** (not summaries!)
+
+Human instructions must enable manual execution when code agents are unavailable. Include copy-pasteable commands, expected output, and troubleshooting. See `references/human_instruction_structure.md`.
 
 **If you find yourself writing to code agent's workspace, STOP.**
 
@@ -135,7 +139,8 @@ All detailed protocols are in `references/`:
 
 | Reference | Purpose |
 |-----------|---------|
-| `instruction_structure.md` | Complete instruction file template |
+| `instruction_structure.md` | Complete instruction file template (for code agents) |
+| `human_instruction_structure.md` | Executable human instruction template (for manual execution) |
 | `grading_rubrics.md` | 6-category grading criteria |
 | `decision_types.md` | decision, rationale, investigation, verification, deviation, milestone |
 | `pre_work_checklist.md` | Code agent pre-work verification |
