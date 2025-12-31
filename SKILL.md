@@ -1,11 +1,24 @@
 ---
 name: architect-agent
 description: Coordinates planning, delegation, and evaluation across architect and code agent workspaces. Use when asked to "write instructions for code agent", "initialize architect workspace", "grade code agent work", "send instructions", or "verify code agent setup".
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Task
+metadata:
+  version: 3.1.0
+  last-updated: 2025-12-31
 ---
 
 # Architect Agent Workflow Skill
 
 Coordinate planning, delegation, and evaluation across architect and code agent workspaces.
+
+**Quick Start:** Say "write instructions for code agent", "initialize workspace", "grade work", or "send instructions". For automated setup, see [Quick Setup](#quick-setup-template-based).
 
 ## Table of Contents
 
@@ -35,40 +48,19 @@ Route requests based on user intent:
 
 ## Decision Tree
 
-```
-USER REQUEST
-    │
-    ├─► "write/create instructions" OR "delegate"
-    │   └─► Check: instructions/ dir exists?
-    │       ├─► Yes → Load guides/workflows/create-instructions.md
-    │       └─► No → Suggest workspace initialization first
-    │
-    ├─► "set up/initialize" architect workspace
-    │   └─► Check: directories DON'T exist?
-    │       ├─► Correct → Load guides/workflows/initialize-workspace.md
-    │       └─► Exist → Warn: already initialized
-    │
-    ├─► "grade" OR "evaluate" work
-    │   └─► Check: grades/ dir exists?
-    │       ├─► Yes → Load guides/workflows/grade-work.md
-    │       └─► No → Suggest workspace initialization first
-    │
-    ├─► "send instructions" to code agent
-    │   └─► Load guides/workflows/send-instructions.md
-    │       └─► Use simple bash copy (DO NOT spawn agents)
-    │
-    ├─► "verify" OR "test hooks/plugins"
-    │   └─► Load references/workspace_verification_protocol.md
-    │
-    ├─► "OpenCode" OR "dual-mode"
-    │   └─► Load references/opencode_integration_quickstart.md
-    │
-    ├─► "permissions" OR "settings.local.json"
-    │   └─► Load references/permissions_setup_protocol.md
-    │
-    └─► "upgrade" OR "migrate"
-        └─► Load references/upgrade.md
-```
+| User Intent | Pre-condition | Action |
+|-------------|---------------|--------|
+| "write/create instructions", "delegate" | `instructions/` exists | Load `guides/workflows/create-instructions.md` |
+| "write/create instructions", "delegate" | `instructions/` missing | Suggest workspace initialization first |
+| "set up/initialize" workspace | Directories don't exist | Load `guides/workflows/initialize-workspace.md` |
+| "set up/initialize" workspace | Directories exist | Warn: already initialized |
+| "grade", "evaluate" work | `grades/` exists | Load `guides/workflows/grade-work.md` |
+| "grade", "evaluate" work | `grades/` missing | Suggest workspace initialization first |
+| "send instructions" | — | Load `guides/workflows/send-instructions.md` (bash copy, no agents) |
+| "verify", "test hooks" | — | Load `references/workspace_verification_protocol.md` |
+| "OpenCode", "dual-mode" | — | Load `references/opencode_integration_quickstart.md` |
+| "permissions" | — | Load `references/permissions_setup_protocol.md` |
+| "upgrade", "migrate" | — | Load `references/upgrade.md` |
 
 ## Resource Loading Policy
 
@@ -92,20 +84,20 @@ USER REQUEST
 
 ## Critical Protocol: File Locations
 
-**YOU ARE THE ARCHITECT AGENT - You work in YOUR workspace, NOT the code agent workspace.**
+**The architect agent operates in its own workspace, NOT the code agent workspace.**
 
-| What | Where YOU Write | Where Code Agent Works |
-|------|----------------|----------------------|
-| Instructions | `YOUR_WORKSPACE/instructions/` | Reads from `debugging/instructions/` |
-| Human Instructions | `YOUR_WORKSPACE/human/` | N/A (for manual execution) |
-| Grades | `YOUR_WORKSPACE/grades/` | N/A |
-| Logs | N/A | Writes to `THEIR_WORKSPACE/debugging/logs/` |
+| Artifact | Architect Writes To | Code Agent Location |
+|----------|--------------------|--------------------|
+| Instructions | `[ARCHITECT]/instructions/` | Reads from `debugging/instructions/` |
+| Human Instructions | `[ARCHITECT]/human/` | N/A (for manual execution) |
+| Grades | `[ARCHITECT]/grades/` | N/A |
+| Logs | N/A | Writes to `[CODE_AGENT]/debugging/logs/` |
 
 **Human Instructions = Executable Documentation** (not summaries!)
 
 Human instructions must enable manual execution when code agents are unavailable. Include copy-pasteable commands, expected output, and troubleshooting. See `references/human_instruction_structure.md`.
 
-**If you find yourself writing to code agent's workspace, STOP.**
+**Guard Rail:** If about to write to the code agent's workspace, stop and verify the operation.
 
 ## Quick Setup (Template-Based)
 
@@ -135,21 +127,68 @@ cd ~/.claude/skills/architect-agent/templates/
 
 ## Reference Directory
 
-All detailed protocols are in `references/`:
+All detailed protocols are in `references/`. Load only what is needed for the current task.
+
+### Core References (Instruction & Grading)
 
 | Reference | Purpose |
 |-----------|---------|
-| `instruction_structure.md` | Complete instruction file template (for code agents) |
-| `human_instruction_structure.md` | Executable human instruction template (for manual execution) |
+| `instruction_structure.md` | Code agent instruction template |
+| `human_instruction_structure.md` | Human-executable instruction template |
 | `grading_rubrics.md` | 6-category grading criteria |
+| `instruction_grading_workflow.md` | Full grading workflow |
 | `decision_types.md` | decision, rationale, investigation, verification, deviation, milestone |
-| `pre_work_checklist.md` | Code agent pre-work verification |
-| `testing_protocol.md` | Progressive testing requirements |
-| `logging_protocol.md` | Hybrid logging v2.0 details |
-| `permissions_setup_protocol.md` | Cross-workspace permissions |
-| `workspace_verification_protocol.md` | Setup verification procedure |
-| `opencode_integration_quickstart.md` | Dual-mode (Claude Code + OpenCode) |
 | `file_naming.md` | Timestamp and naming conventions |
+
+### Setup & Configuration
+
+| Reference | Purpose |
+|-----------|---------|
+| `installation.md` | Skill installation guide |
+| `quick_start.md` | Fast-track setup |
+| `workspace_setup_complete.md` | Full workspace initialization |
+| `workspace_verification_protocol.md` | Verify setup is correct |
+| `permissions_setup_protocol.md` | Cross-workspace permissions |
+| `upgrade.md` | Upgrade to latest version |
+
+### Logging & Debugging
+
+| Reference | Purpose |
+|-----------|---------|
+| `logging_protocol.md` | Hybrid logging v2.0 |
+| `hybrid_logging_protocol.md` | Detailed hybrid logging spec |
+| `hook_configuration_critical.md` | Hook setup requirements |
+| `hook_logger_enhancements.md` | Hook logger improvements |
+| `pre_work_checklist.md` | Code agent pre-work verification |
+| `get_unstuck_protocol.md` | Recovery from blockers |
+| `resilience_protocol.md` | Error recovery patterns |
+| `testing_protocol.md` | Progressive testing requirements |
+
+### OpenCode Integration
+
+| Reference | Purpose |
+|-----------|---------|
+| `opencode_integration_quickstart.md` | Dual-mode quick start |
+| `opencode_setup_guide.md` | Full OpenCode setup |
+| `opencode_migration_guide.md` | Migrate to OpenCode |
+| `opencode_logging_protocol.md` | OpenCode-specific logging |
+| `opencode_wrapper_setup.md` | Wrapper script setup |
+| `claude_vs_opencode_comparison.md` | Feature comparison |
+
+### Agent Configuration
+
+| Reference | Purpose |
+|-----------|---------|
+| `agent_specialization.md` | Agent role configuration |
+| `code_agent_claude_template.md` | CLAUDE.md template for code agents |
+| `code_agent_agents_template.md` | AGENTS.md template for code agents |
+
+### Project Management
+
+| Reference | Purpose |
+|-----------|---------|
+| `git_pr_management.md` | Git and PR workflow |
+| `ticket_tracking_pr_management.md` | Ticket and PR tracking |
 
 ## Guides Directory
 
@@ -161,5 +200,17 @@ Step-by-step workflows in `guides/workflows/`:
 | `grade-work.md` | "grade the code agent's work" |
 | `send-instructions.md` | "send instructions to code agent" |
 | `initialize-workspace.md` | "set up architect agent workspace" |
+
+### Templates
+
+Ready-to-use workspace templates in `templates/`:
+
+| Template | Purpose |
+|----------|---------|
+| `setup-workspace.sh` | Automated workspace creation script |
+| `architect-workspace/` | Complete architect agent workspace template |
+| `code-agent-workspace/` | Complete code agent workspace template |
+
+**See:** `templates/README.md` for usage instructions.
 
 ---
