@@ -1,0 +1,17 @@
+{
+  "name": "architect-agent-marketplace",
+  "description": "Grok marketplace pin. Grok Build also loads Claude plugins zero-config.",
+  "version": "3.2.0",
+  "plugins": [
+    {
+      "name": "architect-agent",
+      "source": ".",
+      "description": "Architect agent: plan, delegate to code agents, grade implementations, iterate to a quality bar. Agent Skill Standard + five-host plugin.",
+      "version": "3.2.0",
+      "compatibility": {
+        "claude_plugin": true,
+        "zero_config": true
+      }
+    }
+  ]
+}

@@ -344,3 +344,11 @@ Following this workflow affects grading:
 - `CLAUDE.md` - Git workflow requirements (this document's companion)
 - `SKILL.md` - Main architect agent skill documentation
 - `references/git_pr_management.md` - Git and PR management details
+
+<!-- worklog:policy:start -->
+## WikiTicket SDD (worklog)
+
+Track this skill repo with [WikiTicket SDD](https://github.com/SpillwaveSolutions/wiki_ticket_sdd).
+Never hand-edit `.work/*.jsonl`.
+<!-- worklog:policy:end -->
+
