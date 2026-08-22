@@ -10,7 +10,7 @@ allowed-tools:
   - Grep
   - Task
 metadata:
-  version: 3.1.0
+  version: 3.2.0
   last-updated: 2025-12-31
 ---
 

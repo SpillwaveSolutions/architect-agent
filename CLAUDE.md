@@ -128,3 +128,11 @@ This skill activates ONLY when user explicitly requests:
 3. "grade the code agent's work"
 
 Do NOT activate for general architecture discussions or code exploration.
+
+<!-- worklog:policy:start -->
+## WikiTicket SDD (worklog)
+
+Track this skill repo with [WikiTicket SDD](https://github.com/SpillwaveSolutions/wiki_ticket_sdd).
+Never hand-edit `.work/*.jsonl`.
+<!-- worklog:policy:end -->
+

@@ -1,0 +1,15 @@
+version: 1
+project:
+  key: ARCH
+  name: "Architect Agent"
+ticketing:
+  system: github
+  project: SpillwaveSolutions/architect-agent
+wiki:
+  system: github-wiki
+  root_url: https://github.com/SpillwaveSolutions/architect-agent/wiki
+paths:
+  plans: docs/plans
+  status: docs/status
+  roadmap: docs/roadmap.md
+installed: 0.24.4

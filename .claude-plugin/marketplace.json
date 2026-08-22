@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "architect-agent",
+  "owner": {
+    "name": "Rick Hightower",
+    "url": "https://github.com/RichardHightower"
+  },
+  "metadata": {
+    "version": "3.2.0",
+    "description": "Architect agent: plan, delegate to code agents, grade implementations, iterate to a quality bar. Agent Skill Standard + five-host plugin."
+  },
+  "plugins": [
+    {
+      "name": "architect-agent",
+      "description": "Architect agent: plan, delegate to code agents, grade implementations, iterate to a quality bar. Agent Skill Standard + five-host plugin.",
+      "source": "./",
+      "strict": false,
+      "version": "3.2.0",
+      "skills": [
+        "./"
+      ]
+    }
+  ]
+}

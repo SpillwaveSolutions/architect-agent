@@ -1,0 +1,5 @@
+---
+description: architect-agent
+alwaysApply: false
+---
+When planning, delegating to a code agent, or grading implementation, follow the architect-agent skill (SKILL.md). Track work with WikiTicket SDD.

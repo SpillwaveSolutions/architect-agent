@@ -1,0 +1,26 @@
+{
+  "name": "architect-agent",
+  "version": "3.2.0",
+  "description": "Architect agent: plan, delegate to code agents, grade implementations, iterate to a quality bar. Agent Skill Standard + five-host plugin.",
+  "author": {
+    "name": "Rick Hightower"
+  },
+  "homepage": "https://github.com/SpillwaveSolutions/architect-agent",
+  "repository": "https://github.com/SpillwaveSolutions/architect-agent",
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "architect",
+    "delegation",
+    "grading",
+    "claude-code",
+    "grok-build",
+    "codex",
+    "cursor",
+    "agent-plugins",
+    "worklog",
+    "wiki-ticket-sdd"
+  ],
+  "skills": "./",
+  "rules": ".cursor/rules/"
+}
